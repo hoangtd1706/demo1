@@ -81,12 +81,18 @@ class SiteController extends Controller
             return $this->goBack();
         } else {
             $model->password = '';
-
             return $this->render('login', [
                 'model' => $model,
             ]);
         }
     }
+
+    function console_log( $data ){
+        echo '<script>';
+        echo 'console.log('. json_encode( $data ) .')';
+        echo '</script>';
+    }
+
 
     /**
      * Logout action.
