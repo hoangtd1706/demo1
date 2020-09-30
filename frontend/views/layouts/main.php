@@ -4,9 +4,9 @@
 /* @var $content string */
 
 use yii\helpers\Html;
-use yii\bootstrap\Nav;
-use yii\bootstrap\NavBar;
-use yii\widgets\Breadcrumbs;
+use yii\bootstrap4\Nav;
+use yii\bootstrap4\NavBar;
+use yii\bootstrap4\Breadcrumbs;
 use frontend\assets\AppAsset;
 use common\widgets\Alert;
 
@@ -32,7 +32,7 @@ AppAsset::register($this);
         'brandLabel' => Yii::$app->name,
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
-            'class' => 'navbar-inverse navbar-fixed-top',
+            'class' => 'fixed-top navbar-expand-sm navbar-dark bg-dark',
         ],
     ]);
     $menuItems = [
@@ -48,13 +48,13 @@ AppAsset::register($this);
             . Html::beginForm(['/site/logout'], 'post')
             . Html::submitButton(
                 'Logout (' . Yii::$app->user->identity->username . ')',
-                ['class' => 'btn btn-link logout']
+                ['class' => 'btn btn-link pl-sm-0']
             )
             . Html::endForm()
             . '</li>';
     }
     echo Nav::widget([
-        'options' => ['class' => 'navbar-nav navbar-right'],
+        'options' => ['class' => 'navbar-nav ml-auto'],
         'items' => $menuItems,
     ]);
     NavBar::end();
