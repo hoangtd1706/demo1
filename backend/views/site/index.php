@@ -1,7 +1,7 @@
 <?php
 
 /* @var $this yii\web\View */
-
+use \yii\bootstrap4\Dropdown;
 $this->title = 'Hellooo';
 ?>
 <div class="site-index">
@@ -18,6 +18,18 @@ $this->title = 'Hellooo';
 
         <div class="row">
             <div class="col-lg-4">
+                <div class="nav-item dropdown">
+                    <a href="#" data-toggle="dropdown" id="alertsDropdown" role="button" class="nav-link dropdown-toggle" aria-haspopup="true" aria-expanded="false">Label <b class="caret"></b></a>
+                    <?php
+
+                    echo Dropdown::widget([
+                        'items' => [
+                            ['label' => 'Logout', 'url' => '/logout'],
+                            ['label' => 'DropdownB', 'url' => '#'],
+                        ],
+                    ]);
+                    ?>
+                </div>
                 <h2>Heading</h2>
 
                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
