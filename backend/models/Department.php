@@ -63,4 +63,15 @@ class Department extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Staff::className(), ['dep_id' => 'id']);
     }
+
+    public function getAllActive(){
+        $data = Department::find()->where(['status' => '1'])->all();
+        return $data;
+    }
+
+    public function getOne($id){
+        $data = Department::findOne($id);
+        return $data;
+    }
+
 }

@@ -14,7 +14,6 @@ class AppAsset extends AssetBundle
     public $css = [
         'vendor/fontawesome-free/css/all.min.css',
         'css/sb-admin-2.min.css',
-
     ];
     public $js = [
         'vendor/jquery/jquery.min.js',
