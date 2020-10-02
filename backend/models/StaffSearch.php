@@ -17,8 +17,8 @@ class StaffSearch extends Staff
     public function rules()
     {
         return [
-            [['id', 'dep_id', 'status', 'created_at', 'updated_at'], 'integer'],
-            [['staff_name', 'staff_email', 'staff_tel'], 'safe'],
+            [['id', 'status', 'created_at', 'updated_at'], 'integer'],
+            [['staff_name', 'staff_email', 'staff_tel', 'dep_name'], 'safe'],
         ];
     }
 
@@ -59,7 +59,6 @@ class StaffSearch extends Staff
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'dep_id' => $this->dep_id,
             'status' => $this->status,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
@@ -67,7 +66,8 @@ class StaffSearch extends Staff
 
         $query->andFilterWhere(['like', 'staff_name', $this->staff_name])
             ->andFilterWhere(['like', 'staff_email', $this->staff_email])
-            ->andFilterWhere(['like', 'staff_tel', $this->staff_tel]);
+            ->andFilterWhere(['like', 'staff_tel', $this->staff_tel])
+            ->andFilterWhere(['like', 'dep_name', $this->dep_name]);
 
         return $dataProvider;
     }

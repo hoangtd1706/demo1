@@ -2,9 +2,8 @@
 
 namespace backend\controllers;
 
-
-use Yii;
 use backend\models\Department;
+use Yii;
 use backend\models\Staff;
 use backend\models\StaffSearch;
 use yii\helpers\ArrayHelper;
@@ -40,6 +39,7 @@ class StaffController extends Controller
     {
         $searchModel = new StaffSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
@@ -54,10 +54,8 @@ class StaffController extends Controller
      */
     public function actionView($id)
     {
-        $depart = new Department();
         return $this->render('view', [
             'model' => $this->findModel($id),
-
         ]);
     }
 
@@ -70,18 +68,16 @@ class StaffController extends Controller
     {
         $time = time();
         $model = new Staff();
+        $Dep = new Department();
         $model->created_at = $time;
-        $model->updated_at = $time;
-        $Depart = new Department();
-        $dataDep = ArrayHelper::map($Depart->getAllActive(),'id', 'dep_name');
-
+        $depName = ArrayHelper::map($Dep->getAllActive(), 'dep_name', 'dep_name');
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('create', [
             'model' => $model,
-            'dataDep' => $dataDep,
+            'dep_name' => $depName,
         ]);
     }
 
@@ -94,12 +90,6 @@ class StaffController extends Controller
      */
     public function actionUpdate($id)
     {
-        $time = time();
-        $model = new Staff();
-        $model->created_at = $time;
-        $model->updated_at = $time;
-        $Depart = new Department();
-        $dataDep = ArrayHelper::map($Depart->getAllActive(),'id', 'dep_name');
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -108,7 +98,6 @@ class StaffController extends Controller
 
         return $this->render('update', [
             'model' => $model,
-            'dataDep' => $dataDep,
         ]);
     }
 
@@ -139,6 +128,6 @@ class StaffController extends Controller
             return $model;
         }
 
-        throw new NotFoundHttpException('The requested page does not exist.');
+        throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
     }
 }

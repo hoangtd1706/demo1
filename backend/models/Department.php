@@ -14,7 +14,7 @@ use Yii;
  * @property int $created_at
  * @property int $updated_at
  *
- * @property Staff[] $staff
+ * @property Staff1[] $staff_1
  */
 class Department extends \yii\db\ActiveRecord
 {
@@ -32,7 +32,7 @@ class Department extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['dep_name', 'dep_desciption', 'created_at', 'updated_at'], 'required'],
+            [['dep_name', 'dep_desciption', 'created_at', 'updated_at'], 'required', 'message' => '{attribute} không được để trống'],
             [['status', 'created_at', 'updated_at'], 'integer'],
             [['dep_name', 'dep_desciption'], 'string', 'max' => 255],
             [['dep_name'], 'unique'],
@@ -46,22 +46,22 @@ class Department extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'dep_name' => 'Dep Name',
-            'dep_desciption' => 'Dep Desciption',
-            'status' => 'Status',
-            'created_at' => 'Created At',
-            'updated_at' => 'Updated At',
+            'dep_name' => 'Tên phòng ban',
+            'dep_desciption' => 'Thông tin thêm',
+            'status' => 'Trạng thái',
+            'created_at' => 'Ngày tạo',
+            'updated_at' => 'Ngày cập nhật',
         ];
     }
 
     /**
-     * Gets query for [[Staff]].
+     * Gets query for [[Staff1]].
      *
      * @return \yii\db\ActiveQuery
      */
     public function getStaff()
     {
-        return $this->hasMany(Staff::className(), ['dep_id' => 'id']);
+        return $this->hasMany(Staff1::className(), ['dep_id' => 'id']);
     }
 
     public function getAllActive(){

@@ -2,7 +2,6 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use backend\controllers\StaffController;
 
 /* @var $this yii\web\View */
 /* @var $model backend\models\Staff */
@@ -19,13 +18,16 @@ use backend\controllers\StaffController;
 
     <?= $form->field($model, 'staff_tel')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'dep_id')->dropDownList($dataDep,['prompt'=>'- Chon phong ban -']) ?>
+    <?= $form->field($model, 'dep_name')->dropDownList($dataDep,['prompt'=>'- Chon phong ban -']) ?>
 
-    <?= $form->field($model, 'status')->checkbox() ?>
+    <?= $form->field($model, 'status')->textInput() ?>
 
+    <?= $form->field($model, 'created_at')->textInput() ?>
+
+    <?= $form->field($model, 'updated_at')->textInput() ?>
 
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord?'Create':'update', ['class'=>$model->isNewRecord?'btn btn-success':'btn btn-primary']) ?>
+        <?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-success']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

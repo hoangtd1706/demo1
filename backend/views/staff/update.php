@@ -5,10 +5,12 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model backend\models\Staff */
 
-$this->title = 'Update Staff: ' . $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Staff', 'url' => ['index']];
+$this->title = Yii::t('app', 'Update Staff: {name}', [
+    'name' => $model->id,
+]);
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Staff'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->params['breadcrumbs'][] = Yii::t('app', 'Update');
 ?>
 <div class="staff-update">
 
@@ -16,7 +18,6 @@ $this->params['breadcrumbs'][] = 'Update';
 
     <?= $this->render('_form', [
         'model' => $model,
-        'dataDep' => $dataDep,
     ]) ?>
 
 </div>

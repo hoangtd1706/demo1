@@ -11,13 +11,12 @@ use Yii;
  * @property string $staff_name
  * @property string $staff_email
  * @property string $staff_tel
- * @property string $staff_depart
- * @property int|null $dep_id
+ * @property string $dep_name
  * @property int $status
  * @property int $created_at
  * @property int $updated_at
  *
- * @property Department $dep
+ * @property Department $depName
  */
 class Staff extends \yii\db\ActiveRecord
 {
@@ -35,11 +34,11 @@ class Staff extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['staff_name', 'staff_email', 'staff_tel', 'created_at', 'updated_at'], 'required'],
-            [['dep_id', 'status', 'created_at', 'updated_at'], 'integer'],
-            [['staff_name', 'staff_email', 'staff_tel'], 'string', 'max' => 255],
-            [['staff_email'], 'unique'],
-            [['dep_id'], 'exist', 'skipOnError' => true, 'targetClass' => Department::className(), 'targetAttribute' => ['dep_id' => 'id']],
+            [['staff_name', 'staff_email', 'staff_tel', 'dep_name', 'created_at', 'updated_at'], 'required', 'message' => '{attribute} không được để trống!'],
+            [['status', 'created_at', 'updated_at'], 'integer'],
+            [['staff_name', 'staff_email', 'staff_tel', 'dep_name'], 'string', 'max' => 255],
+            [['staff_email'], 'unique', 'message' => '{attribute} không được trùng!'],
+            [['dep_name'], 'exist', 'skipOnError' => true, 'targetClass' => Department::className(), 'targetAttribute' => ['dep_name' => 'dep_name']],
         ];
     }
 
@@ -49,24 +48,24 @@ class Staff extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'staff_name' => 'Staff Name',
-            'staff_email' => 'Staff Email',
-            'staff_tel' => 'Staff Tel',
-            'dep_id' => 'Dep ID',
-            'status' => 'Status',
-            'created_at' => 'Created At',
-            'updated_at' => 'Updated At',
+            'id' => Yii::t('app', 'ID'),
+            'staff_name' => Yii::t('app', 'Tên nhân viên'),
+            'staff_email' => Yii::t('app', 'Email'),
+            'staff_tel' => Yii::t('app', 'Số điện thoại'),
+            'dep_name' => Yii::t('app', 'Phòng ban'),
+            'status' => Yii::t('app', 'Trạng thái'),
+            'created_at' => Yii::t('app', 'Ngày tạo'),
+            'updated_at' => Yii::t('app', 'Ngày cập nhật'),
         ];
     }
 
     /**
-     * Gets query for [[Dep]].
+     * Gets query for [[DepName]].
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getDep()
+    public function getDepName()
     {
-        return $this->hasOne(Department::className(), ['id' => 'dep_id']);
+        return $this->hasOne(Department::className(), ['dep_name' => 'dep_name']);
     }
 }

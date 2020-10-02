@@ -14,29 +14,28 @@ class m201001_035050_staff extends Migration
             $tableOption = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB';
         }
 
-        $this->createTable('{{department}}',[
-            'id' => $this->primaryKey(),
-            'dep_name' => $this->string()->notNull()->unique(),
-            'dep_desciption' => $this->string()->notNull(),
-
-            'status' => $this->smallInteger()->notNull()->defaultValue(10),
-            'created_at' => $this->integer()->notNull(),
-            'updated_at' => $this->integer()->notNull(),
-        ],$tableOptions);
+//        $this->createTable('{{department}}',[
+//            'id' => $this->primaryKey(),
+//            'dep_name' => $this->string()->notNull()->unique(),
+//            'dep_desciption' => $this->string()->notNull(),
+//
+//            'status' => $this->smallInteger()->notNull()->defaultValue(10),
+//            'created_at' => $this->integer()->notNull(),
+//            'updated_at' => $this->integer()->notNull(),
+//        ],$tableOptions);
 
         $this->createTable('{{staff}}', [
             'id' => $this->primaryKey(),
             'staff_name' => $this->string()->notNull(),
             'staff_email' => $this->string()->notNull()->unique(),
             'staff_tel' => $this->string()->notNull(),
-            'staff_depart' => $this->string()->notNull()->unique(),
-            'dep_id' => $this->integer(),
+            'dep_name' => $this->string()->notNull(),
 
             'status' => $this->smallInteger()->notNull()->defaultValue(10),
             'created_at' => $this->integer()->notNull(),
             'updated_at' => $this->integer()->notNull(),
         ], $tableOptions);
-        $this->addForeignKey('fk_staff_department', 'staff', 'dep_id', 'department', 'id');
+        $this->addForeignKey('fk_staff_department', 'staff', 'dep_name', 'department', 'dep_name');
     }
 
     public function down()

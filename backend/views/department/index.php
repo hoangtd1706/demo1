@@ -35,6 +35,18 @@ $this->params['breadcrumbs'][] = $this->title;
             //'status',
             //'created_at',
             //'updated_at',
+            [
+                'attribute' => 'created_at',
+                'value' => function ($model, $key, $index, $grid) {
+                    return date('d-m-Y', $model->created_at);
+                },
+            ],
+            [
+                'attribute' => 'updated_at',
+                'value' => function ($model, $key, $index, $grid) {
+                    return date('d-m-Y', $model->updated_at);
+                },
+            ],
             ['class' => 'yii\grid\ActionColumn',
                 'buttons' => [
                     'update' =>  function($url,$model) {

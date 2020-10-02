@@ -4,9 +4,10 @@ use yii\helpers\Html;
 
 /* @var $this yii\web\View */
 /* @var $model backend\models\Staff */
+/* @var $model backend\Controller\StaffController */
 
-$this->title = 'Create Staff';
-$this->params['breadcrumbs'][] = ['label' => 'Staff', 'url' => ['index']];
+$this->title = Yii::t('app', 'Create Staff');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Staff'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="staff-create">
@@ -15,7 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= $this->render('_form', [
         'model' => $model,
-        'dataDep' => $dataDep,
+        'dep_name' => $dep_name,
     ]) ?>
 
 </div>
