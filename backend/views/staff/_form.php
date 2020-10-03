@@ -1,7 +1,8 @@
 <?php
 
 use yii\helpers\Html;
-use yii\widgets\ActiveForm;
+use yii\bootstrap4\ActiveForm;
+use common\widgets\Alert;
 
 /* @var $this yii\web\View */
 /* @var $model backend\models\Staff */
@@ -18,17 +19,16 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'staff_tel')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'dep_name')->dropDownList($dataDep,['prompt'=>'- Chon phong ban -']) ?>
+    <?= $form->field($model, 'dep_name')->dropDownList($dep_name, ['prompt' => '- Chon phong ban -']) ?>
 
-    <?= $form->field($model, 'status')->textInput() ?>
-
-    <?= $form->field($model, 'created_at')->textInput() ?>
-
-    <?= $form->field($model, 'updated_at')->textInput() ?>
+    <?= $form->field($model, 'status')->checkbox() ?>
 
     <div class="form-group">
-        <?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton(Yii::t('app', 'Save'), [
+            'class' => 'btn btn-success',
+        ]) ?>
     </div>
+
 
     <?php ActiveForm::end(); ?>
 

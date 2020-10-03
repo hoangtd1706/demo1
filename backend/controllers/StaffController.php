@@ -10,6 +10,7 @@ use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use common\widgets\Alert;
 
 /**
  * StaffController implements the CRUD actions for Staff model.
@@ -59,6 +60,8 @@ class StaffController extends Controller
         ]);
     }
 
+
+
     /**
      * Creates a new Staff model.
      * If creation is successful, the browser will be redirected to the 'view' page.
@@ -70,14 +73,17 @@ class StaffController extends Controller
         $model = new Staff();
         $Dep = new Department();
         $model->created_at = $time;
+        $model->updated_at = $time;
         $depName = ArrayHelper::map($Dep->getAllActive(), 'dep_name', 'dep_name');
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            //return $this->redirect('success');
+            return $this->redirect(['success', 'id' => $model->id]);
         }
 
         return $this->render('create', [
             'model' => $model,
             'dep_name' => $depName,
+
         ]);
     }
 
@@ -91,13 +97,17 @@ class StaffController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
+        $time = time();
+        $Dep = new Department();
+        $model->updated_at = $time;
+        $depName = ArrayHelper::map($Dep->getAllActive(), 'dep_name', 'dep_name');
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('update', [
             'model' => $model,
+            'dep_name' => $depName,
         ]);
     }
 
@@ -113,6 +123,10 @@ class StaffController extends Controller
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
+    }
+
+    public function actionSuccess(){
+        return $this->render('success');
     }
 
     /**

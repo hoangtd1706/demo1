@@ -1,4 +1,5 @@
 <?php
+
 namespace frontend\controllers;
 
 use frontend\models\ResendVerificationEmailForm;
@@ -14,6 +15,7 @@ use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
+use yii\swiftmailer\Mailer;
 
 /**
  * Site controller
@@ -216,8 +218,8 @@ class SiteController extends Controller
      * Verify email address
      *
      * @param string $token
-     * @throws BadRequestHttpException
      * @return yii\web\Response
+     * @throws BadRequestHttpException
      */
     public function actionVerifyEmail($token)
     {
@@ -235,6 +237,17 @@ class SiteController extends Controller
 
         Yii::$app->session->setFlash('error', 'Sorry, we are unable to verify your account with provided token.');
         return $this->goHome();
+    }
+
+    public function actionTestEmail()
+    {
+        Yii::$app->mailer->compose()
+            ->setTo('hoangtd1706@gmail.com')
+            ->setFrom('demo.hoangtd1706@gmail.com')
+            ->setSubject('Test 3')
+            ->setTextBody('hosssssss')
+            ->send();
+        return $this->render('test-email');
     }
 
     /**

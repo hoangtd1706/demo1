@@ -4,7 +4,6 @@ use yii\helpers\Html;
 
 /* @var $this yii\web\View */
 /* @var $model backend\models\Staff */
-/* @var $model backend\Controller\StaffController */
 
 $this->title = Yii::t('app', 'Create Staff');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Staff'), 'url' => ['index']];
