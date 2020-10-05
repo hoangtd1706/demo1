@@ -6,6 +6,10 @@
     <br>
 </p>
 
+<h1>Login by</h1>
+<h2>Username: admin</h2>
+<h2>Password: 12345678</h2>
+
 Yii 2 Advanced Project Template is a skeleton [Yii 2](http://www.yiiframework.com/) application best for
 developing complex Web applications with multiple tiers.
 
