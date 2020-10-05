@@ -18,7 +18,10 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a(Yii::t('app', 'Create Staff'), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
-    <?php echo $this->render('_search', ['model' => $searchModel]); ?>
+    <?php echo $this->render('_search', [
+        'model' => $searchModel,
+        'dep_name' => $dep_name,
+        ]); ?>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -65,7 +68,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         ]);
                     },
                     'delete' => function ($url, $model) {
-                        return Html::a('<i class="fas fa-eye"></i>', $url, [
+                        return Html::a('<i class="fas fa-trash"></i>', $url, [
                             'title' => Yii::t('app', 'delete'),
                             'class' => 'btn btn-danger',
                             'data' => [

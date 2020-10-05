@@ -40,10 +40,12 @@ class StaffController extends Controller
     {
         $searchModel = new StaffSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
+        $Dep = new Department();
+        $depName = ArrayHelper::map($Dep->getAllActive(), 'dep_name', 'dep_name');
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'dep_name' => $depName,
         ]);
     }
 

@@ -58,11 +58,11 @@ $this->params['breadcrumbs'][] = $this->title;
                     'view' =>  function($url,$model) {
                         return Html::a('<i class="fas fa-eye"></i>', $url, [
                             'title' => Yii::t('app', 'view'),
-                            'class' => 'btn btn-light',
+                            'class' => 'btn btn-success',
                         ]);
                     },
                     'delete' => function($url,$model) {
-                        return Html::a('<i class="fas fa-eye"></i>', $url, [
+                        return Html::a('<i class="fas fa-trash"></i>', $url, [
                             'title' => Yii::t('app', 'delete'),
                             'class' => 'btn btn-danger',
                             'data' => [

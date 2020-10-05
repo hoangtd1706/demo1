@@ -23,7 +23,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'staff_tel') ?>
 
-    <?= $form->field($model, 'dep_name') ?>
+    <?= $form->field($model, 'dep_name')->dropDownList($dep_name, ['prompt' => '- Chon phong ban -']) ?>
 
     <?php // echo $form->field($model, 'dep_name') ?>
 
