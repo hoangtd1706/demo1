@@ -104,7 +104,7 @@ class StaffController extends Controller
         $model->updated_at = $time;
         $depName = ArrayHelper::map($Dep->getAllActive(), 'dep_name', 'dep_name');
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['success', 'id' => $model->id]);
         }
 
         return $this->render('update', [
@@ -124,7 +124,7 @@ class StaffController extends Controller
     {
         $this->findModel($id)->delete();
 
-        return $this->redirect(['index']);
+        return $this->redirect('success');
     }
 
     public function actionSuccess(){
