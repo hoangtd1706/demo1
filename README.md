@@ -1,4 +1,4 @@
-<h1>Login by</h1>
+<h1>Login</h1>
 <h2>Username: admin</h2>
 <h2>Password: 12345678</h2>
 
