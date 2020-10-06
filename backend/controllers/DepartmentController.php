@@ -69,7 +69,7 @@ class DepartmentController extends Controller
         $model->created_at = $time;
         $model->updated_at = $time;
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect('view', ['id' => $model->id]);
         }
 
         return $this->render('create', [
