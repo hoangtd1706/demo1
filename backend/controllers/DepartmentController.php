@@ -4,10 +4,12 @@ namespace backend\controllers;
 
 use Yii;
 use backend\models\Department;
+use backend\models\Staff;
 use backend\models\DepartmentSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\helpers\ArrayHelper;
 
 /**
  * DepartmentController implements the CRUD actions for Department model.
@@ -52,6 +54,7 @@ class DepartmentController extends Controller
      */
     public function actionView($id)
     {
+
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
@@ -108,9 +111,19 @@ class DepartmentController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $dep_name = Department::getOne($id);
+        $model = Staff::find()->where(['dep_name' => $dep_name->dep_name, 'status' => 1])->asArray()->all();
+        if ($model != null){
+            throw new \yii\web\HttpException(403, "Phòng đang có người không xóa được nhé!");
+        }
+        else{
+            print_r('ok xóa nhớ!');
+            $this->findModel($id)->delete();
+        }
+    }
 
-        return $this->redirect(['index']);
+    public function actionError(){
+        $this->render('error');
     }
 
     /**

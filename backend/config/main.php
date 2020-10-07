@@ -2,7 +2,7 @@
 
 use \yii\web\Request;
 
-$baseUrl = str_replace('/frontend/web','', (new Request)->getBaseUrl());
+$baseUrl = str_replace('/frontend/web', '', (new Request)->getBaseUrl());
 $params = array_merge(
     require __DIR__ . '/../../common/config/params.php',
     require __DIR__ . '/../../common/config/params-local.php',
@@ -53,7 +53,23 @@ return [
             'rules' => [
             ],
         ],
-
     ],
-    'params' => $params,
+    'as access' => [
+        'class' => \yii\filters\AccessControl::className(),//AccessControl::className(),
+        'rules' => [
+            [
+                'actions' => ['login', 'error'],
+                'allow' => true,
+            ],
+            [
+                'actions' => ['logout', 'index', 'create', 'update', 'delete'], // add all actions to take guest to login page
+                'allow' => true,
+                'roles' => ['@'],
+            ],
+        ],
+    ],
+    'params' => array(
+        'registrationUrl' => 'site/registration', //Registration page url
+        'recoveryUrl' => 'site/recovery', //Recovery or change password page url
+    ),
 ];

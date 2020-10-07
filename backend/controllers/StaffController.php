@@ -122,9 +122,16 @@ class StaffController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $stt = $this->findModel($id)->delete();
+        print_r($err);
+        die();
+        if ($this->findModel($id)->delete()){
+            return $this->redirect('success');
+        }
+        else{
+            return $this->render('error');
+        }
 
-        return $this->redirect('success');
     }
 
     public function actionSuccess(){

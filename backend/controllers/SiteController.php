@@ -1,6 +1,8 @@
 <?php
+
 namespace backend\controllers;
 
+use app\models\User;
 use Yii;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
@@ -31,6 +33,9 @@ class SiteController extends Controller
                         'roles' => ['@'],
                     ],
                 ],
+//                'denyCallback' => function () {
+//                    return Yii::$app->response->redirect(['site/login']);
+//                },
             ],
             'verbs' => [
                 'class' => VerbFilter::className(),
@@ -87,9 +92,15 @@ class SiteController extends Controller
         }
     }
 
-    function console_log( $data ){
+    public function actionError(){
+        if($error= Yii::app()->errorHandler->error)
+            $this->render('error', $error);
+    }
+
+    function console_log($data)
+    {
         echo '<script>';
-        echo 'console.log('. json_encode( $data ) .')';
+        echo 'console.log(' . json_encode($data) . ')';
         echo '</script>';
     }
 
