@@ -7,7 +7,7 @@ use yii\grid\GridView;
 /* @var $searchModel backend\models\DepartmentSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Departments';
+$this->title = 'Phòng ban';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="department-index">
@@ -15,8 +15,14 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create Department', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Thêm phòng ban mới', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
+    <?php if (Yii::$app->session->hasFlash('nodata')): ?>
+        <div class="alert alert-danger alert-dismissable">
+            <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+            <h4><?= Yii::$app->session->getFlash('nodata') ?></h4>
+        </div>
+    <?php endif; ?>
 
     <?php echo $this->render('_search', ['model' => $searchModel]); ?>
 
@@ -32,7 +38,12 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'dep_name',
             'dep_desciption',
-            //'status',
+            [
+                'attribute' => 'status',
+                'value' =>function ($model) {
+                    return $model->status == 1 ? 'Hoạt động' :  'Không hoạt động';
+                }
+            ],
             //'created_at',
             //'updated_at',
             [
@@ -75,13 +86,6 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ],
     ]); ?>
-    <?php if (Yii::$app->session->hasFlash('error')): ?>
-        <div class="alert alert-danger alert-dismissable">
-            <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
-            <h4><i class="icon fa fa-check"></i>Saved!</h4>
-            <?= Yii::$app->session->getFlash('error') ?>
-        </div>
-    <?php endif; ?>
 
 
 </div>

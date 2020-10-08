@@ -39,7 +39,9 @@ class DepartmentController extends Controller
     {
         $searchModel = new DepartmentSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
+        if ($dataProvider->models == null) {
+            Yii::$app->session->setFlash('nodata', "Khong co phong ban nay");
+        }
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
@@ -72,7 +74,11 @@ class DepartmentController extends Controller
         $model->created_at = $time;
         $model->updated_at = $time;
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect('view', ['id' => $model->id]);
+            return $this->render('success',
+                [
+                    'model' => $model,
+                    'message' => 'Thêm mới thành công!',
+                ]);
         }
 
         return $this->render('create', [
@@ -94,7 +100,11 @@ class DepartmentController extends Controller
         $model = $this->findModel($id);
         $model->updated_at = $time;
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->render('success',
+                [
+                    'model' => $model,
+                    'message' => 'Cập nhật thành công!',
+                ]);
         }
 
         return $this->render('update', [
@@ -113,16 +123,21 @@ class DepartmentController extends Controller
     {
         $dep_name = Department::getOne($id);
         $model = Staff::find()->where(['dep_name' => $dep_name->dep_name, 'status' => 1])->asArray()->all();
-        if ($model != null){
+        if ($model != null) {
             throw new \yii\web\HttpException(403, "Phòng đang có người không xóa được nhé!");
-        }
-        else{
-            print_r('ok xóa nhớ!');
+        } else {
+            $mo = Department::findOne($id);
             $this->findModel($id)->delete();
+            return $this->render('success',
+                [
+                    'model' => $mo,
+                    'message' => 'Xóa thành công!',
+                ]);
         }
     }
 
-    public function actionError(){
+    public function actionError()
+    {
         $this->render('error');
     }
 

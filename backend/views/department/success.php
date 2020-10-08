@@ -21,10 +21,8 @@ $this->title = Yii::t('app', $message);
         'model' => $model,
         'attributes' => [
             'id',
-            'staff_name',
-            'staff_email:email',
-            'staff_tel',
             'dep_name',
+            'dep_desciption',
             [
                 'attribute' => 'status',
                 'value' => (($model->status == 1) ? "Hoạt động" : "Không hoạt động"),

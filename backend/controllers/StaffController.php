@@ -10,7 +10,6 @@ use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use common\widgets\Alert;
 
 /**
  * StaffController implements the CRUD actions for Staff model.
@@ -40,6 +39,9 @@ class StaffController extends Controller
     {
         $searchModel = new StaffSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        if($dataProvider->models == null){
+            Yii::$app->session->setFlash('nodata', "Khong co nhan vien!");
+        }
         $Dep = new Department();
         $depName = ArrayHelper::map($Dep->getAllActive(), 'dep_name', 'dep_name');
         return $this->render('index', [
@@ -78,8 +80,11 @@ class StaffController extends Controller
         $model->updated_at = $time;
         $depName = ArrayHelper::map($Dep->getAllActive(), 'dep_name', 'dep_name');
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            //return $this->redirect('success');
-            return $this->redirect(['success', 'id' => $model->id]);
+            return $this->render('success',
+                [
+                    'model' => $model,
+                    'message'=> 'Thêm mới thành công!',
+                ]);
         }
 
         return $this->render('create', [
@@ -104,7 +109,11 @@ class StaffController extends Controller
         $model->updated_at = $time;
         $depName = ArrayHelper::map($Dep->getAllActive(), 'dep_name', 'dep_name');
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['success', 'id' => $model->id]);
+            return $this->render('success',
+                [
+                    'model' => $model,
+                    'message'=> 'Cập nhật thành công!',
+                ]);
         }
 
         return $this->render('update', [
@@ -122,11 +131,14 @@ class StaffController extends Controller
      */
     public function actionDelete($id)
     {
+        $model = $this->findModel($id);
         $stt = $this->findModel($id)->delete();
-        print_r($err);
-        die();
-        if ($this->findModel($id)->delete()){
-            return $this->redirect('success');
+        if ($stt == true){
+            return $this->render('success',
+                [
+                    'model' => $model,
+                    'message'=> 'Xoa thanh cong',
+                ]);
         }
         else{
             return $this->render('error');

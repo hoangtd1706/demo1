@@ -104,6 +104,14 @@ class SiteController extends Controller
         echo '</script>';
     }
 
+    public function actionSuccess(){
+        return $this->render('success');
+    }
+
+    public function actionConfirm(){
+        return $this->render('confirm');
+    }
+
 
     /**
      * Logout action.

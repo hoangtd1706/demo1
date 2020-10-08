@@ -7,7 +7,7 @@ use yii\grid\GridView;
 /* @var $searchModel backend\models\StaffSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', 'Staff');
+$this->title = Yii::t('app', 'Nhân viên');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="staff-index">
@@ -15,13 +15,18 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a(Yii::t('app', 'Create Staff'), ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a(Yii::t('app', 'Thêm nhân viên mới'), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
-
+    <?php if (Yii::$app->session->hasFlash('nodata')): ?>
+        <div class="alert alert-danger alert-dismissable">
+            <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+            <h4><?= Yii::$app->session->getFlash('nodata') ?></h4>
+        </div>
+    <?php endif; ?>
     <?php echo $this->render('_search', [
         'model' => $searchModel,
         'dep_name' => $dep_name,
-        ]); ?>
+    ]); ?>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -37,7 +42,12 @@ $this->params['breadcrumbs'][] = $this->title;
             'staff_email:email',
             'staff_tel',
             'dep_name',
-            'status',
+            [
+                'attribute' => 'status',
+                'value' =>function ($model) {
+                    return $model->status == 1 ? 'Hoạt động' :  'Không hoạt động';
+                }
+            ],
             //'created_at',
             //'updated_at',
 
@@ -58,19 +68,19 @@ $this->params['breadcrumbs'][] = $this->title;
                     'update' => function ($url, $model) {
                         return Html::a('<i class="fas fa-edit"></i>', $url, [
                             'title' => Yii::t('app', 'update'),
-                            'class' => 'btn btn-primary',
+                            'class' => 'btn btn-sm ml-2 btn-primary',
                         ]);
                     },
                     'view' => function ($url, $model) {
                         return Html::a('<i class="fas fa-eye"></i>', $url, [
                             'title' => Yii::t('app', 'view'),
-                            'class' => 'btn btn-success',
+                            'class' => 'btn btn-sm ml-2 btn-success',
                         ]);
                     },
                     'delete' => function ($url, $model) {
                         return Html::a('<i class="fas fa-trash"></i>', $url, [
                             'title' => Yii::t('app', 'delete'),
-                            'class' => 'btn btn-danger',
+                            'class' => 'btn btn-sm ml-2 btn-danger',
                             'data' => [
                                 'confirm' => 'Are you sure you want to delete this item?',
                                 'method' => 'post',

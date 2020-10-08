@@ -39,6 +39,11 @@ class Staff extends \yii\db\ActiveRecord
             [['staff_name', 'staff_email', 'staff_tel', 'dep_name'], 'string', 'max' => 255],
             [['staff_email'], 'unique', 'message' => '{attribute} không được trùng!'],
             [['dep_name'], 'exist', 'skipOnError' => true, 'targetClass' => Department::className(), 'targetAttribute' => ['dep_name' => 'dep_name']],
+            [
+                ['staff_name'] , 'filter', 'filter' => function($value) {
+                    return trim(htmlentities(strip_tags($value), ENT_QUOTES, 'UTF-8'));
+                }
+            ]
         ];
     }
 
