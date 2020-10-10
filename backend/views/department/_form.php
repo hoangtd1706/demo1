@@ -7,7 +7,6 @@ use yii\bootstrap4\ActiveForm;
 /* @var $model backend\models\Department */
 /* @var $form yii\widgets\ActiveForm */
 ?>
-
 <div class="department-form">
 
     <?php $form = ActiveForm::begin(); ?>
@@ -25,3 +24,4 @@ use yii\bootstrap4\ActiveForm;
     <?php ActiveForm::end(); ?>
 
 </div>
+

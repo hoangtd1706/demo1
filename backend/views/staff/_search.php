@@ -1,7 +1,7 @@
 <?php
 
 use yii\helpers\Html;
-use yii\widgets\ActiveForm;
+use yii\bootstrap4\ActiveForm;
 
 /* @var $this yii\web\View */
 /* @var $model backend\models\StaffSearch */
@@ -15,15 +15,11 @@ use yii\widgets\ActiveForm;
         'method' => 'get',
     ]); ?>
 
-    <?= $form->field($model, 'id') ?>
 
-    <?= $form->field($model, 'staff_name') ?>
-
-    <?= $form->field($model, 'staff_email') ?>
-
-    <?= $form->field($model, 'staff_tel') ?>
-
-    <?= $form->field($model, 'dep_name')->dropDownList($dep_name, ['prompt' => '- Chon phong ban -']) ?>
+    <div class="row">
+        <?= $form->field($model, 'staff_name',['options' => ['class' => 'col-lg-4']])->textInput()->input('text', ['placeholder' => "Nhập tên nhân viên"])->label(false); ?>
+        <?= Html::submitButton(Yii::t('app', 'Search'), ['class' => 'btn btn-primary']) ?>
+    </div>
 
     <?php // echo $form->field($model, 'dep_name') ?>
 
@@ -33,10 +29,6 @@ use yii\widgets\ActiveForm;
 
     <?php // echo $form->field($model, 'updated_at') ?>
 
-    <div class="form-group">
-        <?= Html::submitButton(Yii::t('app', 'Search'), ['class' => 'btn btn-primary']) ?>
-        <?= Html::resetButton(Yii::t('app', 'Reset'), ['class' => 'btn btn-outline-secondary']) ?>
-    </div>
 
     <?php ActiveForm::end(); ?>
 

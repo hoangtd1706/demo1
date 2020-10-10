@@ -45,7 +45,4 @@ $this->title = Yii::t('app', $message);
             </div>
         </div>
     </div>
-
-
-
 </div>

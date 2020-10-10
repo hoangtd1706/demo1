@@ -62,7 +62,7 @@ return [
                 'allow' => true,
             ],
             [
-                'actions' => ['logout', 'index', 'view', 'create', 'update', 'delete', 'confirm'], // add all actions to take guest to login page
+                'actions' => ['logout', 'index', 'view', 'create', 'update', 'delete', 'confirm', 'toolbar'], // add all actions to take guest to login page
                 'allow' => true,
                 'roles' => ['@'],
             ],

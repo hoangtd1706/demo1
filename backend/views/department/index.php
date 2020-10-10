@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use \yii\bootstrap4\LinkPager;
 
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\DepartmentSearch */
@@ -12,13 +13,11 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="department-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-
     <p>
         <?= Html::a('Thêm phòng ban mới', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
     <?php if (Yii::$app->session->hasFlash('nodata')): ?>
-        <div class="alert alert-danger alert-dismissable">
+        <div class="alert alert-danger alert-dismissible">
             <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
             <h4><?= Yii::$app->session->getFlash('nodata') ?></h4>
         </div>
@@ -30,7 +29,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         //'filterModel' => $searchModel,
         'pager' => [
-            'class' => \yii\bootstrap4\LinkPager::class
+            'class' => LinkPager::class
         ],
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
@@ -48,34 +47,34 @@ $this->params['breadcrumbs'][] = $this->title;
             //'updated_at',
             [
                 'attribute' => 'created_at',
-                'value' => function ($model, $key, $index, $grid) {
+                'value' => function ($model) {
                     return date('d-m-Y', $model->created_at);
                 },
             ],
             [
                 'attribute' => 'updated_at',
-                'value' => function ($model, $key, $index, $grid) {
+                'value' => function ($model) {
                     return date('d-m-Y', $model->updated_at);
                 },
             ],
             ['class' => 'yii\grid\ActionColumn',
                 'buttons' => [
-                    'update' =>  function($url,$model) {
+                    'update' =>  function($url) {
                         return Html::a('<i class="fas fa-edit"></i>', $url, [
                             'title' => Yii::t('app', 'update'),
-                            'class' => 'btn btn-primary',
+                            'class' => 'btn btn-sm ml-2 btn-primary',
                         ]);
                     },
-                    'view' =>  function($url,$model) {
+                    'view' =>  function($url) {
                         return Html::a('<i class="fas fa-eye"></i>', $url, [
                             'title' => Yii::t('app', 'view'),
-                            'class' => 'btn btn-success',
+                            'class' => 'btn btn-sm ml-2 btn-success',
                         ]);
                     },
-                    'delete' => function($url,$model) {
+                    'delete' => function($url) {
                         return Html::a('<i class="fas fa-trash"></i>', $url, [
                             'title' => Yii::t('app', 'delete'),
-                            'class' => 'btn btn-danger',
+                            'class' => 'btn btn-sm ml-2 btn-danger',
                             'data' => [
                                 'confirm' => 'Are you sure you want to delete this item?',
                                 'method' => 'post',

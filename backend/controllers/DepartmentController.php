@@ -69,10 +69,32 @@ class DepartmentController extends Controller
      */
     public function actionCreate()
     {
+        $session = Yii::$app->session;
         $time = time();
         $model = new Department();
         $model->created_at = $time;
         $model->updated_at = $time;
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+            /*$session->set('dep_name', $model->dep_name);
+            $session->set('dep_desciption', $model->dep_desciption);
+            $session->set('dep_status', $model->status);
+            $session->set('created_at', $model->created_at);
+            $session->set('updated_at', $model->updated_at);*/
+            $this->actionSetSession($model);
+            return $this->redirect('confirm');
+        }
+
+        return $this->render('create', [
+            'model' => $model,
+        ]);
+    }
+
+
+
+    public function actionConfirm()
+    {
+
+        $model = $this->actionGetSession();
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->render('success',
                 [
@@ -80,11 +102,12 @@ class DepartmentController extends Controller
                     'message' => 'Thêm mới thành công!',
                 ]);
         }
-
-        return $this->render('create', [
+        return $this->render('confirm', [
             'model' => $model,
         ]);
+
     }
+
 
     /**
      * Updates an existing Department model.
@@ -100,6 +123,8 @@ class DepartmentController extends Controller
         $model = $this->findModel($id);
         $model->updated_at = $time;
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            //$this->actionSetSession($model);
+            //return $this->redirect('confirm');
             return $this->render('success',
                 [
                     'model' => $model,
@@ -139,6 +164,34 @@ class DepartmentController extends Controller
     public function actionError()
     {
         $this->render('error');
+    }
+
+    public function actionSetSession($model)
+    {
+        if ($model != null) {
+            $session = Yii::$app->session;
+            $session->set('dep_id', $model->id);
+            $session->set('dep_name', $model->dep_name);
+            $session->set('dep_desciption', $model->dep_desciption);
+            $session->set('dep_status', $model->status);
+            $session->set('created_at', $model->created_at);
+            $session->set('updated_at', $model->updated_at);
+        } else {
+            throw new \yii\web\HttpException(403, "Phòng đang có người không xóa được nhé!");
+        }
+    }
+
+    public function actionGetSession()
+    {
+        $model = new Department();
+        $session = Yii::$app->session;
+        $model->id = $session->get('dep_id');
+        $model->dep_name = $session->get('dep_name');
+        $model->dep_desciption = $session->get('dep_desciption');
+        $model->status = $session->get('dep_status');
+        $model->created_at = $session->get('created_at');
+        $model->updated_at = $session->get('updated_at');
+        return $model;
     }
 
     /**

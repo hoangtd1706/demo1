@@ -12,7 +12,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="staff-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+
 
     <p>
         <?= Html::a(Yii::t('app', 'Thêm nhân viên mới'), ['create'], ['class' => 'btn btn-success']) ?>
@@ -42,16 +42,16 @@ $this->params['breadcrumbs'][] = $this->title;
             'staff_email:email',
             'staff_tel',
             'dep_name',
-            [
+            /*[
                 'attribute' => 'status',
                 'value' =>function ($model) {
                     return $model->status == 1 ? 'Hoạt động' :  'Không hoạt động';
                 }
-            ],
+            ],*/
             //'created_at',
             //'updated_at',
 
-            [
+            /*[
                 'attribute' => 'created_at',
                 'value' => function ($model, $key, $index, $grid) {
                     return date('d-m-Y', $model->created_at);
@@ -62,25 +62,25 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value' => function ($model, $key, $index, $grid) {
                     return date('d-m-Y', $model->updated_at);
                 },
-            ],
+            ],*/
             ['class' => 'yii\grid\ActionColumn',
                 'buttons' => [
                     'update' => function ($url, $model) {
                         return Html::a('<i class="fas fa-edit"></i>', $url, [
                             'title' => Yii::t('app', 'update'),
-                            'class' => 'btn btn-sm ml-2 btn-primary',
+                            'class' => 'btn btn-sm btn-primary',
                         ]);
                     },
                     'view' => function ($url, $model) {
                         return Html::a('<i class="fas fa-eye"></i>', $url, [
                             'title' => Yii::t('app', 'view'),
-                            'class' => 'btn btn-sm ml-2 btn-success',
+                            'class' => 'btn btn-sm btn-success',
                         ]);
                     },
                     'delete' => function ($url, $model) {
-                        return Html::a('<i class="fas fa-trash"></i>', $url, [
+                        return Html::a('<i class="fas fa-dumpster"></i>', $url, [
                             'title' => Yii::t('app', 'delete'),
-                            'class' => 'btn btn-sm ml-2 btn-danger',
+                            'class' => 'btn btn-sm btn-danger',
                             'data' => [
                                 'confirm' => 'Are you sure you want to delete this item?',
                                 'method' => 'post',

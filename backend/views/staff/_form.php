@@ -5,7 +5,7 @@ use yii\bootstrap4\ActiveForm;
 
 /* @var $this yii\web\View */
 /* @var $model backend\models\Staff */
-/* @var $form yii\widgets\ActiveForm */
+/* @var $form yii\bootstrap4\ActiveForm */
 ?>
 
 <div class="staff-form">

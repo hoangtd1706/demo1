@@ -14,7 +14,7 @@ use Yii;
  * @property int $created_at
  * @property int $updated_at
  *
- * @property Staff1[] $staff_1
+ * @property Staff[] $staff
  */
 class Department extends \yii\db\ActiveRecord
 {
@@ -35,7 +35,7 @@ class Department extends \yii\db\ActiveRecord
             [['dep_name', 'dep_desciption', 'created_at', 'updated_at'], 'required', 'message' => '{attribute} không được để trống'],
             [['status', 'created_at', 'updated_at'], 'integer'],
             [['dep_name', 'dep_desciption'], 'string', 'max' => 255],
-            [['dep_name'], 'unique'],
+            [['dep_name'], 'unique', 'message' => '{attribute} đã tồn tại!'],
         ];
     }
 
