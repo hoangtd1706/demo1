@@ -11,12 +11,14 @@ use Yii;
  * @property string $staff_name
  * @property string $staff_email
  * @property string $staff_tel
- * @property string $dep_name
+ * @property int $dep_id
  * @property int $status
  * @property int $created_at
  * @property int $updated_at
  *
- * @property Department $depName
+ * @property Admin $admin
+ * @property Department $dep
+ * @property Staffnclub[] $staffnclubs
  */
 class Staff extends \yii\db\ActiveRecord
 {
@@ -34,13 +36,13 @@ class Staff extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['staff_name', 'staff_email', 'staff_tel', 'dep_name', 'created_at', 'updated_at'], 'required', 'message' => '{attribute} không được để trống!'],
-            [['status', 'created_at', 'updated_at'], 'integer'],
-            [['staff_name', 'staff_email', 'staff_tel', 'dep_name'], 'string', 'max' => 255],
-            [['staff_email'], 'unique', 'message' => '{attribute} không được trùng!'],
-            [['dep_name'], 'exist', 'skipOnError' => true, 'targetClass' => Department::className(), 'targetAttribute' => ['dep_name' => 'dep_name']],
+            [['staff_name', 'staff_email', 'staff_tel', 'dep_id', 'created_at', 'updated_at'], 'required', 'message'=>'{attribute} không được để trống!'],
+            [['dep_id', 'status', 'created_at', 'updated_at'], 'integer'],
+            [['staff_name', 'staff_email', 'staff_tel'], 'string', 'max' => 255],
+            [['staff_email'], 'unique', 'message'=> '{attribute} đã tồn tại ở nhân viên khác!'],
+            [['dep_id'], 'exist', 'skipOnError' => true, 'targetClass' => Department::className(), 'targetAttribute' => ['dep_id' => 'id']],
             [
-                ['staff_name'] , 'filter', 'filter' => function($value) {
+                ['staff_name'], 'filter', 'filter' =>function($value){
                     return trim(htmlentities(strip_tags($value), ENT_QUOTES, 'UTF-8'));
                 }
             ]
@@ -57,7 +59,7 @@ class Staff extends \yii\db\ActiveRecord
             'staff_name' => Yii::t('app', 'Tên nhân viên'),
             'staff_email' => Yii::t('app', 'Email'),
             'staff_tel' => Yii::t('app', 'Số điện thoại'),
-            'dep_name' => Yii::t('app', 'Phòng ban'),
+            'dep_id' => Yii::t('app', 'Phòng ban'),
             'status' => Yii::t('app', 'Trạng thái'),
             'created_at' => Yii::t('app', 'Ngày tạo'),
             'updated_at' => Yii::t('app', 'Ngày cập nhật'),
@@ -65,12 +67,49 @@ class Staff extends \yii\db\ActiveRecord
     }
 
     /**
-     * Gets query for [[DepName]].
+     * Gets query for [[Admin]].
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getDepName()
+    public function getAdmin()
     {
-        return $this->hasOne(Department::className(), ['dep_name' => 'dep_name']);
+        return $this->hasOne(Admin::className(), ['admin_id' => 'id']);
     }
+
+    /**
+     * Gets query for [[Dep]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getDep()
+    {
+        return $this->hasOne(Department::className(), ['id' => 'dep_id']);
+    }
+
+    /**
+     * Gets query for [[Staffnclubs]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getStaffnclubs()
+    {
+        return $this->hasMany(Staffnclub::className(), ['staff_id' => 'id']);
+    }
+
+    public function actionList($id){
+        $rows = Staff::find()->where(['dep_id' => $id])->all();
+
+        echo "<option>-- Chon truong phong</option>";
+
+        if(count($rows)>0){
+            foreach($rows as $row){
+                echo "<option value='$row->id'>$row->staff_name</option>";
+            }
+        }
+        else{
+            echo "<option>Khong co nhan vien nao</option>";
+        }
+
+    }
+
 }

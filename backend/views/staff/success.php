@@ -22,9 +22,9 @@ $this->title = Yii::t('app', $message);
         'attributes' => [
             'id',
             'staff_name',
-            'staff_email:email',
+            'staff_email',
             'staff_tel',
-            'dep_name',
+            'dep_id',
             [
                 'attribute' => 'status',
                 'value' => (($model->status == 1) ? "Hoạt động" : "Không hoạt động"),
@@ -36,7 +36,7 @@ $this->title = Yii::t('app', $message);
 
     <div class="container h-100">
         <div class="row h-100 justify-content-center align-items-center">
-            <div class="d-flex shadow-lg">
+            <div class="d-flex shadow-sm">
                 <div class="row">
                     <div class="col-12">
                         <?= Html::a(Yii::t('app', '&larr; Back to Dashboard'), 'index', ['class' => 'btn btn-success btn-block',]) ?>
@@ -45,4 +45,7 @@ $this->title = Yii::t('app', $message);
             </div>
         </div>
     </div>
+
+
+
 </div>

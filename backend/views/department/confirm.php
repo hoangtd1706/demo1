@@ -34,8 +34,16 @@ $this->title = Yii::t('app', 'Confirm');
         <?= $form->field($model, 'status')->checkbox() ?>
         </div>
         <div class="form-group">
-            <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
-            <?= Html::a(Yii::t('app', 'Hủy'), ['index'], ['class' => 'btn btn-danger'
+            <?php if ($act == 'create'): ?>
+                <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+            <?php endif; ?>
+            <?php if ($act == 'update'): ?>
+                <?= Html::submitButton('Update', ['class' => 'btn btn-primary']) ?>
+            <?php endif; ?>
+            <?php if ($act == 'delete'): ?>
+                <?= Html::submitButton('Delete', ['class' => 'btn btn-danger']) ?>
+            <?php endif; ?>
+            <?= Html::a(Yii::t('app', 'Hủy'), ['index'], ['class' => 'btn btn-outline-danger'
             ]) ?>
         </div>
 

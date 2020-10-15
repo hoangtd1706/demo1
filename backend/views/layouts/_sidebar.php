@@ -55,6 +55,18 @@ AppAsset::register($this);
             </div>
         </div>
     </li>
+    <li class="nav-item">
+        <a class="nav-link" href="<?php echo Yii::$app->homeUrl. 'admin' ?>">
+            <i class="fas fa-fw fa-chart-area"></i>
+            <span>Trưởng phòng</span></a>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="<?php echo Yii::$app->homeUrl. 'club' ?>">
+            <i class="fas fa-fw fa-chart-area"></i>
+            <span>Câu lạc bộ</span></a>
+        </a>
+    </li>
 
     <!-- Divider -->
     <hr class="sidebar-divider d-none d-md-block">
