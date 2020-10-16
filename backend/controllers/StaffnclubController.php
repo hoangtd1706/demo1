@@ -64,8 +64,11 @@ class StaffnclubController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Staffnclub();
+        $time = time();
 
+        $model = new Staffnclub();
+        $model->created_at = $time;
+        $model->updated_at = time();
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }

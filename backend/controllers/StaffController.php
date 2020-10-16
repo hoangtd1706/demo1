@@ -9,6 +9,7 @@ use backend\models\Staff;
 use backend\models\Staffnclub;
 use backend\models\StaffSearch;
 use Yii;
+use yii\base\Model;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -129,15 +130,28 @@ class StaffController extends Controller
         $time = time();
         $model = $this->findModel($id);
         $model->updated_at = $time;
-        $club = Club::find()->all();
-        if ($model->load(Yii::$app->request->post())) {
+        $clubs = Club::find()->all();
+
+        if ($model->load(Yii::$app->request->post()))
+        {
             $this->setSession($model, 'update');
-            return $this->redirect(['confirm']);
+            //return $this->redirect(['confirm']);
+        }
+        $abc = Model::loadMultiple($clubs,Yii::$app->request->post());
+    echo "lskfjskljfd";
+    print_r($abc);
+        print_r($model->id);
+        if (Yii::$app->request->post('selection'))
+        {
+            echo "lskfjskljfd";
+           print_r($clubs);
+           die();
         }
 
         return $this->render('update', [
             'model' => $model,
-            'club' => $club,
+            'clubs' => $clubs,
+            'abc'=>$abc
         ]);
     }
 

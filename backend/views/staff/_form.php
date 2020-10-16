@@ -9,9 +9,9 @@ use backend\models\Club;
 /* @var $this yii\web\View */
 /* @var $model backend\models\Staff */
 /* @var $form yii\bootstrap4\ActiveForm */
-/* @var $club backend\models\Club */
+/* @var $clubs backend\models\Club */
 
-$clubs = Club::find()->where(['status'=>1])->all();
+$clubs = Club::find()->all();
 ?>
 
 <div class="staff-form overflow-hidden">
@@ -39,7 +39,20 @@ $clubs = Club::find()->where(['status'=>1])->all();
         </div>
         <div class="col-sm-12 col-md-6  overflow-hidden">
             <label class="form-check-label" for="inlineCheckbox1">Câu lạc bộ</label>
-            <?= $form->field($club, 'club_id')->checkboxList(ArrayHelper::map($clubs,'id','club_name'))?>
+            <?php $form = ActiveForm::begin(); ?>
+
+            <?php foreach ($clubs as $club): ?>
+                <div class="custom-control custom-checkbox mt-2 mb-2">
+                    <input type="checkbox" class="custom-control-input" id="customCheck<?php print_r($club->id) ?>"
+                           value="<?php print_r($club->id) ?>">
+                    <label class="custom-control-label"
+                           for="customCheck<?php print_r($club->id) ?>"><?php print_r($club->club_name) ?></label>
+                </div>
+            <?php endforeach; ?>
+            <div class="form-group mt-2">
+                <?= Html::submitButton(Yii::t('app', 'Add'), ['class' => 'btn btn-success']) ?>
+            </div>
+            <?php ActiveForm::end(); ?>
         </div>
     </div>
 <?php endif; ?>
