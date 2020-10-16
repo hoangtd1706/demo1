@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use backend\models\Staff;
 use Yii;
 use backend\models\Admin;
 use backend\models\AdminSearch;
@@ -65,9 +66,23 @@ class AdminController extends Controller
     public function actionCreate()
     {
         $model = new Admin();
+        $time = time();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        $model->status = 1;
+        $model->created_at = $time;
+        $model->updated_at = $time;
+
+        if ($model->load(Yii::$app->request->post())) {
+            $staff = Staff::find()->where(['id' => $model->admin_id])->one();
+            $model->admin_name = $staff->staff_name;
+            $model->admin_email = $staff->staff_email;
+            $model->admin_phone = $staff->staff_tel;
+            if ($model->save()){
             return $this->redirect(['view', 'id' => $model->id]);
+            }else{
+                print_r($model->errors);
+                die();
+            }
         }
 
         return $this->render('create', [

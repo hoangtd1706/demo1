@@ -27,14 +27,50 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'admin_name',
             'admin_id',
-            'dep_id',
+            [
+                    'attribute'=>'dep_id',
+                'value'=>function($value){
+                    if ($value == null){
+                        return "khong co phong ban";
+                    }
+                    else{
+                        $dep = \backend\models\Department::findOne($value->dep_id);
+                        return $dep->dep_name;
+                    }
+                }
+            ],
             'admin_phone',
             //'status',
             //'created_at',
             //'updated_at',
             //'admin_email:email',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            ['class' => 'yii\grid\ActionColumn',
+                'buttons' => [
+                    'update' =>  function($url) {
+                        return Html::a('<i class="fas fa-edit"></i>', $url, [
+                            'title' => Yii::t('app', 'update'),
+                            'class' => 'btn btn-sm ml-2 btn-primary',
+                        ]);
+                    },
+                    'view' =>  function($url) {
+                        return Html::a('<i class="fas fa-eye"></i>', $url, [
+                            'title' => Yii::t('app', 'view'),
+                            'class' => 'btn btn-sm ml-2 btn-success',
+                        ]);
+                    },
+                    'delete' => function($url) {
+                        return Html::a('<i class="fas fa-trash"></i>', $url, [
+                            'title' => Yii::t('app', 'delete'),
+                            'class' => 'btn btn-sm ml-2 btn-danger',
+                            'data' => [
+                                'confirm' => 'Are you sure you want to delete this item?',
+                                'method' => 'post',
+                            ],
+                        ]);
+                    }
+                ]
+            ],
         ],
     ]); ?>
 

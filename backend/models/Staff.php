@@ -45,7 +45,8 @@ class Staff extends \yii\db\ActiveRecord
                 ['staff_name'], 'filter', 'filter' =>function($value){
                     return trim(htmlentities(strip_tags($value), ENT_QUOTES, 'UTF-8'));
                 }
-            ]
+            ],
+            [['club_id'],'integer'],
         ];
     }
 
@@ -59,6 +60,7 @@ class Staff extends \yii\db\ActiveRecord
             'staff_name' => Yii::t('app', 'Tên nhân viên'),
             'staff_email' => Yii::t('app', 'Email'),
             'staff_tel' => Yii::t('app', 'Số điện thoại'),
+            'club_id' => Yii::t('app', 'Cau lac bo'),
             'dep_id' => Yii::t('app', 'Phòng ban'),
             'status' => Yii::t('app', 'Trạng thái'),
             'created_at' => Yii::t('app', 'Ngày tạo'),
@@ -96,20 +98,12 @@ class Staff extends \yii\db\ActiveRecord
         return $this->hasMany(Staffnclub::className(), ['staff_id' => 'id']);
     }
 
-    public function actionList($id){
-        $rows = Staff::find()->where(['dep_id' => $id])->all();
-
-        echo "<option>-- Chon truong phong</option>";
-
-        if(count($rows)>0){
-            foreach($rows as $row){
-                echo "<option value='$row->id'>$row->staff_name</option>";
-            }
-        }
-        else{
-            echo "<option>Khong co nhan vien nao</option>";
-        }
-
+    public static function getDepartList()
+    {
+        $data =  static::find()
+            ->select(['dep_id', 'soft_name'])
+            ->orderBy('soft_name')->asArray()->all();
+        return ArrayHelper::map($data, 'soft_id', 'soft_name');
     }
 
 }

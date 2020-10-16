@@ -17,27 +17,18 @@ use yii\helpers\Url;
 
 
 
-    <?= $form->field($model, 'dep_id')->dropDownList(ArrayHelper::map(Department::find()->where(['status'=>1])->all(),'id','dep_name'),
+    <?= $form->field($model, 'dep_id')->dropDownList(ArrayHelper::map(Department::find()->where(['status' => 1])->all(), 'id', 'dep_name'),
         [
-            'prompt'=>'-- Chon phong ban --',
-            'onchange'=>'
-                        $.get( "'.Url::toRoute('/lists/dep').'", { id: $(this).val() } )
+            'prompt' => '-- Chon phong ban --',
+            'onchange' => '
+                        $.get( "' . Url::toRoute('staff/stafflists') . '", { id: $(this).val() } )
                             .done(function( data ) {
-                                $( "#'.Html::getInputId($model, 'admin_email').'" ).html( data );
+                                $( "#' . Html::getInputId($model, 'admin_id') . '" ).html( data );
                             }
                         );
                     '
-        ])?>
-    <?= $form->field($model, 'admin_id')->textInput() ?>
-    
-    <?= $form->field($model, 'admin_name')->dropDownList(['prompt'=>'Selecione um estado'])  ?>
-
-    <?= $form->field($model, 'admin_email')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'admin_phone')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'status')->textInput() ?>
-
+        ]) ?>
+    <?= $form->field($model, 'admin_id')->dropDownList(['prompt' => '']); ?>
 
     <div class="form-group">
         <?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-success']) ?>

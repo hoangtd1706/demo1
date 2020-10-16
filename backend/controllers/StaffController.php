@@ -2,7 +2,11 @@
 
 namespace backend\controllers;
 
+use backend\models\Admin;
+use backend\models\Club;
+use backend\models\Department;
 use backend\models\Staff;
+use backend\models\Staffnclub;
 use backend\models\StaffSearch;
 use Yii;
 use yii\filters\VerbFilter;
@@ -37,11 +41,44 @@ class StaffController extends Controller
     {
         $searchModel = new StaffSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $ckStaff = Yii::$app->request->post('selection');
+        $dep = Yii::$app->request->post('StaffSearch');
 
+        if (Yii::$app->request->post('selection')) {
+            if ($ckStaff != null && $dep != null) {
+                foreach ($dep as $dep_id) {
+                    $dep = (int)$dep_id;
+                }
+                foreach ($ckStaff as $staff) {
+                    $this->updateDepToStaff($staff, $dep);
+                }
+            }
+        }
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'model' => $searchModel,
         ]);
+    }
+
+    public function updateDepToStaff($staff, $dep)
+    {
+        $model = Staff::findOne($staff);
+        $check = Admin::find()->where(['admin_id' => $model->id])->one();
+        $time = time();
+        $model->updated_at = $time;
+        $model->dep_id = $dep;
+        var_dump($check->dep_id);
+        var_dump($dep);
+        if ($check->dep_id != $dep) {
+            print_r($dep);
+            print_r("dang la truong phong khong chuyen duoc");
+        } else if ($model->save()) {
+            print_r("ok");
+        } else {
+            print_r("error");
+            print_r($model->errors);
+        }
     }
 
     /**
@@ -52,8 +89,10 @@ class StaffController extends Controller
      */
     public function actionView($id)
     {
+        $dataProvider = Club::find()->where(['status' => 1])->all();
         return $this->render('view', [
             'model' => $this->findModel($id),
+            'dataProvider' => $dataProvider,
         ]);
     }
 
@@ -90,13 +129,15 @@ class StaffController extends Controller
         $time = time();
         $model = $this->findModel($id);
         $model->updated_at = $time;
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        $club = Club::find()->all();
+        if ($model->load(Yii::$app->request->post())) {
             $this->setSession($model, 'update');
             return $this->redirect(['confirm']);
         }
 
         return $this->render('update', [
             'model' => $model,
+            'club' => $club,
         ]);
     }
 
@@ -134,7 +175,7 @@ class StaffController extends Controller
         $modelCheck = Staff::findOne($model->id);
         switch ($act) {
             case "create":
-                if ($model->load(Yii::$app->request->post())&& $model->validate()) {
+                if ($model->load(Yii::$app->request->post()) && $model->validate()) {
                     if ($model->save()) {
                         return $this->render('success', ['model' => $model, 'message' => 'Thêm mới thành công!']);
                     } else {
@@ -147,18 +188,15 @@ class StaffController extends Controller
                 $modelCheck->staff_name = $model->staff_name;
                 $modelCheck->staff_email = $model->staff_email;
                 $modelCheck->staff_tel = $model->staff_tel;
-                $modelCheck->dep_id = $model->dep_id;
                 $modelCheck->status = $model->status;
                 $modelCheck->updated_at = $model->updated_at;
-
                 if ($model->load(Yii::$app->request->post())) {
                     if ($modelCheck->save()) {
                         return $this->render('success', [
                             'model' => $model,
                             'message' => 'Cập nhật thành công!',
                         ]);
-                    }
-                    else{
+                    } else {
                         print_r($model->errors);
                         die();
                     }
@@ -238,5 +276,28 @@ class StaffController extends Controller
         }
 
         throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
+    }
+
+    public function actionStafflists($id)
+    {
+        $rows = Staff::find()->where(['dep_id' => $id])->all();
+
+        echo "<option>-- Chon truong phong --</option>";
+
+        if (count($rows) > 0) {
+            foreach ($rows as $row) {
+                echo "<option value='$row->id'>$row->id - $row->staff_name - $row->staff_email</option>";
+            }
+        } else {
+            echo "<option>Khong co nhan vien nao</option>";
+        }
+
+    }
+
+    public function actionStaffname($id)
+    {
+        $rows = Staff::find()->where(['id' => $id])->one();
+        return $rows->staff_name;
+
     }
 }

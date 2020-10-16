@@ -19,11 +19,11 @@ use backend\models\Admin;
 
     <?= $form->field($model, 'admin_name') ?>
 
-    <?= $form->field($model, 'admin_id')->dropDownList(ArrayHelper::map(Admin::find()->where(['status'=>1])->all(),'id','admin_name'),[
+    <?= $form->field($model, 'admin_id')->dropDownList(ArrayHelper::map(Admin::find()->all(),'id','admin_name'),[
             'prompt'=>'-- Chon truong phong --',
     ]) ?>
 
-    <?= $form->field($model, 'dep_id')->dropDownList(ArrayHelper::map(Admin::find()->where(['status'=>1])->all(),'id','dep_id'),[
+    <?= $form->field($model, 'dep_id')->dropDownList(ArrayHelper::map(Admin::find()->all(),'id','dep_id'),[
         'prompt'=>'-- Chon phong ban --',
     ]) ?>
 
