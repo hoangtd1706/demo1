@@ -5,6 +5,8 @@ use yii\bootstrap4\ActiveForm;
 use yii\helpers\ArrayHelper;
 use backend\models\Department;
 use backend\models\Club;
+use yii\bootstrap4\Modal;
+use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $model backend\models\Staff */
@@ -14,13 +16,24 @@ use backend\models\Club;
 $clubs = Club::find()->all();
 ?>
 
-<div class="staff-form overflow-hidden">
+<div class="staff-form overflow-hidden p-2">
+    <?php if ($this->title != "Create Staff"): ?>
+    <?= Html::button('Tham gia cau lac bo', [
+        'value' => Url::to('http://localhost:1999/demo1/backend/web/club/listsclub?id=' . $model->id),
+        'class' => 'btn btn-outline-success', 'id' => 'modalButton'
+    ]) ?>
+    <?php
+    Modal::begin([
+        'title' => 'Tham gia câu lạc bộ',
+        'id' => 'modal',
+        'size' => 'modal-lg',
+    ]);
+    echo '<div id="modalContent"></div>';
+    Modal::end();
+    ?>
+    <?php endif; ?>
 
     <?php $form = ActiveForm::begin(); ?>
-    <?php if ($this->title != 'Create Staff'): ?>
-    <div class="row">
-        <div class="col-sm-12 col-md-6  overflow-hidden">
-            <?php endif; ?>
             <?= $form->field($model, 'staff_name')->textInput(['maxlength' => true]) ?>
 
             <?= $form->field($model, 'staff_email')->textInput(['maxlength' => true]) ?>
@@ -35,29 +48,10 @@ $clubs = Club::find()->all();
                     2 => 'Không hoạt động'
                 ],
             ]) ?>
-            <?php if ($this->title != 'Create Staff'): ?>
-        </div>
-        <div class="col-sm-12 col-md-6  overflow-hidden">
-            <label class="form-check-label" for="inlineCheckbox1">Câu lạc bộ</label>
-            <?php $form = ActiveForm::begin(); ?>
-
-            <?php foreach ($clubs as $club): ?>
-                <div class="custom-control custom-checkbox mt-2 mb-2">
-                    <input type="checkbox" class="custom-control-input" id="customCheck<?php print_r($club->id) ?>"
-                           value="<?php print_r($club->id) ?>">
-                    <label class="custom-control-label"
-                           for="customCheck<?php print_r($club->id) ?>"><?php print_r($club->club_name) ?></label>
-                </div>
-            <?php endforeach; ?>
-            <div class="form-group mt-2">
-                <?= Html::submitButton(Yii::t('app', 'Add'), ['class' => 'btn btn-success']) ?>
-            </div>
-            <?php ActiveForm::end(); ?>
         </div>
     </div>
-<?php endif; ?>
 
-    <div class="form-group">
+    <div class="form-group pl-2">
         <?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-success']) ?>
     </div>
 

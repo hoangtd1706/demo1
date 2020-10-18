@@ -132,26 +132,14 @@ class StaffController extends Controller
         $model->updated_at = $time;
         $clubs = Club::find()->all();
 
-        if ($model->load(Yii::$app->request->post()))
-        {
+        if ($model->load(Yii::$app->request->post())) {
             $this->setSession($model, 'update');
-            //return $this->redirect(['confirm']);
-        }
-        $abc = Model::loadMultiple($clubs,Yii::$app->request->post());
-    echo "lskfjskljfd";
-    print_r($abc);
-        print_r($model->id);
-        if (Yii::$app->request->post('selection'))
-        {
-            echo "lskfjskljfd";
-           print_r($clubs);
-           die();
+            return $this->redirect(['confirm']);
         }
 
         return $this->render('update', [
             'model' => $model,
             'clubs' => $clubs,
-            'abc'=>$abc
         ]);
     }
 
@@ -314,4 +302,5 @@ class StaffController extends Controller
         return $rows->staff_name;
 
     }
+
 }

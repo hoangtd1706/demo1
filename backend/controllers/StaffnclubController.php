@@ -69,8 +69,21 @@ class StaffnclubController extends Controller
         $model = new Staffnclub();
         $model->created_at = $time;
         $model->updated_at = time();
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post())) {
+            $check = Staffnclub::find()->where(['club_id'=>$model->club_id,'staff_id'=>$model->staff_id])->all();
+            if ($check == null){
+                if ($model->save()){
+                    return $this->redirect(['view', 'id' => $model->id]);
+                }
+                else{
+                    print_r($model->errors);
+                    die();
+                }
+            }
+            else{
+                Yii::$app->session->setFlash('errorClub', "Nhan vien da tham gia club.");
+            }
+
         }
 
         return $this->render('create', [

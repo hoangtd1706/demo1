@@ -64,7 +64,7 @@ return [
             [
                 'actions' => [
                     'logout', 'index', 'view', 'create', 'update', 'delete',
-                    'confirm', 'toolbar', 'stafflists', 'staffname', 'staffmail'], // add all actions to take guest to login page
+                    'confirm', 'toolbar', 'stafflists', 'staffname', 'staffmail', 'listsclub'], // add all actions to take guest to login page
                 'allow' => true,
                 'roles' => ['@'],
             ],

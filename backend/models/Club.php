@@ -35,6 +35,7 @@ class Club extends \yii\db\ActiveRecord
             [['club_name'], 'required'],
             [['status', 'created_at', 'updated_at'], 'integer'],
             [['club_name', 'club_description'], 'string', 'max' => 255],
+            [['staff_id'],'integer']
         ];
     }
 
@@ -47,6 +48,7 @@ class Club extends \yii\db\ActiveRecord
             'id' => Yii::t('app', 'ID'),
             'club_name' => Yii::t('app', 'Club Name'),
             'club_description' => Yii::t('app', 'Club Description'),
+            'staff_id',
             'status' => Yii::t('app', 'Status'),
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),

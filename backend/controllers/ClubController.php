@@ -2,9 +2,11 @@
 
 namespace backend\controllers;
 
+use backend\models\Staff;
 use Yii;
 use backend\models\Club;
 use backend\models\ClubSearch;
+use backend\models\Staffnclub;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -43,6 +45,7 @@ class ClubController extends Controller
             'dataProvider' => $dataProvider,
         ]);
     }
+
 
     /**
      * Displays a single Club model.
@@ -123,5 +126,43 @@ class ClubController extends Controller
         }
 
         throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
+    }
+
+    public function actionListsclub($id)
+    {
+        $time = time();
+        $searchModel = new ClubSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $staff = Staff::findOne($id);
+        $staffs = Staff::find()->where(['id'=>$id])->all();
+
+
+        $chk = Yii::$app->request->post('selection');
+        if (Yii::$app->request->post('selection') && $chk != null) {
+            foreach ($chk as $check) {
+                if (Staffnclub::find()->where(['club_id' => $check, 'staff_id' => $id])->one()) {
+                    print_r(Staffnclub::find()->where(['club_id' => $check, 'staff_id' => $id])->one());
+                } else {
+                    $model = new Staffnclub();
+                    $model->created_at = $time;
+                    $model->updated_at = $time;
+                    $model->staff_id = $staff->id;
+                    var_dump((int)$check);
+                    $model->club_id = (int)$check;
+                    $model->created_at = $time;
+                    $model->updated_at = $time;
+                    $model->staff_id = $staff->id;
+                    print_r($model);
+                    $model->save();
+                }
+            }
+            return $this->redirect('/demo1/backend/web/staff/update?id=' . $id);
+        }
+
+        return $this->renderAjax('listsclub', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+            'staff_id' => $id,
+        ]);
     }
 }

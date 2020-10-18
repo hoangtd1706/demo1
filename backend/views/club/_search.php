@@ -15,18 +15,24 @@ use yii\widgets\ActiveForm;
         'method' => 'get',
     ]); ?>
 
-    <?= $form->field($model, 'id') ?>
+    <div class="row">
+        <div class="col-sm-12 col-md-6">
+            <?= $form->field($model, 'id') ?>
+        </div>
+        <div class="col-sm-12 col-md-6">
+            <?= $form->field($model, 'club_name') ?>
+        </div>
+        <div class="col-sm-12 col-md-6">
+            <?= $form->field($model, 'club_description') ?>
+        </div>
+        <div class="col-sm-12 col-md-6">
+            <?= $form->field($model, 'status')->dropDownList([1 => 'Hoạt động', 0 => 'Không hoạt động'], [
+                'prompt' => '--Trạng thái--',
+            ]) ?>
+        </div>
 
-    <?= $form->field($model, 'club_name') ?>
-
-    <?= $form->field($model, 'club_description') ?>
-
-    <?= $form->field($model, 'status') ?>
-
-    <?= $form->field($model, 'created_at') ?>
-
-    <?php // echo $form->field($model, 'updated_at') ?>
-
+        <?php // echo $form->field($model, 'updated_at') ?>
+    </div>
     <div class="form-group">
         <?= Html::submitButton(Yii::t('app', 'Search'), ['class' => 'btn btn-primary']) ?>
         <?= Html::resetButton(Yii::t('app', 'Reset'), ['class' => 'btn btn-outline-secondary']) ?>

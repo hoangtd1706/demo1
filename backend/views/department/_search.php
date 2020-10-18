@@ -21,7 +21,13 @@ use yii\bootstrap4\ActiveForm;
 
     <?= $form->field($model, 'dep_desciption') ?>
 
-    <?= $form->field($model, 'status') ?>
+    <?= $form->field($model, 'status')->dropDownList([
+        'prompt' => '--Trang thai--',
+        [
+            1 => 'Hoạt động',
+            0 => 'Không hoạt động'
+        ]
+    ]) ?>
 
     <?= $form->field($model, 'created_at') ?>
 
