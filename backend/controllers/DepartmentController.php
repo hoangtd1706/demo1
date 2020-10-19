@@ -120,7 +120,7 @@ class DepartmentController extends Controller
         $dep = Department::getOne($id);
         $model = Staff::find()->where(['dep_id' => $dep->id, 'status' => 1])->asArray()->all();
         if ($model == null) {
-            $this->actionSetSession($model, 'create');
+            $this->actionSetSession($dep, 'delete');
             return $this->redirect('confirm');
         } else {
             throw new \yii\web\HttpException(403, "Phòng đang có người không xóa được nhé!");
@@ -182,7 +182,7 @@ class DepartmentController extends Controller
                 break;
             case "delete":
                 if ($model->load(Yii::$app->request->post())) {
-                    if ($this->findModel($model->id)) {
+                    if ($this->findModel($model->id)->delete()) {
                         return $this->render('success', [
                             'model' => $model,
                             'message' => 'Xóa thành công!'

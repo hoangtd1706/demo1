@@ -61,11 +61,20 @@ AppAsset::register($this);
             <span>Trưởng phòng</span></a>
         </a>
     </li>
+
     <li class="nav-item">
-        <a class="nav-link" href="<?php echo Yii::$app->homeUrl. 'club' ?>">
-            <i class="fas fa-fw fa-chart-area"></i>
-            <span>Câu lạc bộ</span></a>
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo1"
+           aria-expanded="true" aria-controls="collapseTwo">
+            <i class="fas fa-fw fa-cog"></i>
+            <span>Câu lạc bộ</span>
         </a>
+        <div id="collapseTwo1" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <!--                        <h6 class="collapse-header"></h6>-->
+                <a class="collapse-item" href="<?php echo Yii::$app->homeUrl. 'club' ?>">Danh sách</a>
+                <a class="collapse-item" href="<?php echo Yii::$app->homeUrl. 'staffnclub' ?>">Chi tiết</a>
+            </div>
+        </div>
     </li>
 
     <!-- Divider -->

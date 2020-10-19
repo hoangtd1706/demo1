@@ -10,9 +10,16 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Staff'), 'url' => ['
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="staff-create">
-
-    <?= $this->render('_form', [
-        'model' => $model,
-    ]) ?>
-
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h4 class="m-0 font-weight-bold text-primary"><?= Html::encode($this->title) ?></h4>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive p-1">
+                <?= $this->render('_form', [
+                    'model' => $model,
+                ]) ?>
+            </div>
+        </div>
+    </div>
 </div>

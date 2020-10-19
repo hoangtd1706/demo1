@@ -16,16 +16,27 @@ use backend\models\Department;
         'action' => ['index'],
         'method' => 'get',
     ]); ?>
+    <div class="row">
 
-    <?= $form->field($model, 'staff_name') ?>
+        <div class="col-sm-12 col-md-6">
+            <?= $form->field($model, 'staff_name') ?>
+        </div>
+        <div class="col-sm-12 col-md-6">
+            <?= $form->field($model, 'staff_email') ?>
+        </div>
+        <div class="col-sm-12 col-md-6">
+            <?= $form->field($model, 'dep_id')->dropDownList(ArrayHelper::map(Department::find()->all(),'id','dep_name'),[
+                'prompt'=>'--Chon phong ban--',
+            ]) ?>
+        </div>
+        <div class="col-sm-12 col-md-6">
+            <?php // echo $form->field($model, 'status') ?>
+        </div>
+        <div class="col-sm-12 col-md-6"></div>
 
-    <?= $form->field($model, 'staff_email') ?>
+    </div>
 
-    <?= $form->field($model, 'dep_id')->dropDownList(ArrayHelper::map(Department::find()->all(),'id','dep_name'),[
-            'prompt'=>'--Chon phong ban--',
-    ]) ?>
 
-    <?php // echo $form->field($model, 'status') ?>
 
     <?php // echo $form->field($model, 'created_at') ?>
 

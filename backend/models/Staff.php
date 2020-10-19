@@ -40,13 +40,14 @@ class Staff extends \yii\db\ActiveRecord
             [['dep_id', 'status', 'created_at', 'updated_at'], 'integer'],
             [['staff_name', 'staff_email', 'staff_tel'], 'string', 'max' => 255],
             [['staff_email'], 'unique', 'message'=> '{attribute} đã tồn tại ở nhân viên khác!'],
+            [['staff_email'], 'email','message'=> '{attribute} nhập không đúng định dạng!'],
             [['dep_id'], 'exist', 'skipOnError' => true, 'targetClass' => Department::className(), 'targetAttribute' => ['dep_id' => 'id']],
             [
                 ['staff_name'], 'filter', 'filter' =>function($value){
                     return trim(htmlentities(strip_tags($value), ENT_QUOTES, 'UTF-8'));
                 }
             ],
-            [['club_id'],'integer'],
+            /*[['club_id'],'integer'],*/
         ];
     }
 
@@ -60,7 +61,7 @@ class Staff extends \yii\db\ActiveRecord
             'staff_name' => Yii::t('app', 'Tên nhân viên'),
             'staff_email' => Yii::t('app', 'Email'),
             'staff_tel' => Yii::t('app', 'Số điện thoại'),
-            'club_id' => Yii::t('app', 'Cau lac bo'),
+            /*'club_id' => Yii::t('app', 'Cau lac bo'),*/
             'dep_id' => Yii::t('app', 'Phòng ban'),
             'status' => Yii::t('app', 'Trạng thái'),
             'created_at' => Yii::t('app', 'Ngày tạo'),

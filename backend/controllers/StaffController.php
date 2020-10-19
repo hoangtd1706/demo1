@@ -42,18 +42,22 @@ class StaffController extends Controller
     {
         $searchModel = new StaffSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        if ($dataProvider->models == null) {
+            Yii::$app->session->setFlash('nodata', "Không có nhân viên này!");
+        }
         $ckStaff = Yii::$app->request->post('selection');
         $dep = Yii::$app->request->post('StaffSearch');
-
         if (Yii::$app->request->post('selection')) {
             if ($ckStaff != null && $dep != null) {
-                foreach ($dep as $dep_id) {
-                    $dep = (int)$dep_id;
-                }
                 foreach ($ckStaff as $staff) {
-                    $this->updateDepToStaff($staff, $dep);
+                    $this->updateDepToStaff((int)$staff, ((int)$dep['dep_id']));
                 }
             }
+            return $this->render('index', [
+                'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
+                'model' => $searchModel,
+            ]);
         }
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -69,16 +73,14 @@ class StaffController extends Controller
         $time = time();
         $model->updated_at = $time;
         $model->dep_id = $dep;
-        var_dump($check->dep_id);
-        var_dump($dep);
-        if ($check->dep_id != $dep) {
-            print_r($dep);
-            print_r("dang la truong phong khong chuyen duoc");
+        if ($check['dep_id'] != null) {
+            Yii::$app->session->setFlash('error', $model->staff_name . " đang là trưởng phòng. Không thể chuyển!");
         } else if ($model->save()) {
-            print_r("ok");
+            Yii::$app->session->setFlash('success', "Chuyển thành công!");
         } else {
             print_r("error");
             print_r($model->errors);
+            die();
         }
     }
 
@@ -108,7 +110,7 @@ class StaffController extends Controller
         $model = new Staff();
         $model->created_at = $time;
         $model->updated_at = $time;
-        if ($model->load(Yii::$app->request->post())) {
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             $this->setSession($model, 'create');
             return $this->redirect(['confirm']);
         }
@@ -131,10 +133,15 @@ class StaffController extends Controller
         $model = $this->findModel($id);
         $model->updated_at = $time;
         $clubs = Club::find()->all();
-
+        $checkAdmin = Admin::find()->where(['admin_id' => $model->id])->all();
         if ($model->load(Yii::$app->request->post())) {
-            $this->setSession($model, 'update');
-            return $this->redirect(['confirm']);
+            if ($checkAdmin == null) {
+                print_r($model->dep_id);
+                $this->setSession($model, 'update');
+                return $this->redirect(['confirm']);
+            } else {
+                Yii::$app->session->setFlash('error', $model->staff_name . " đang là trưởng phòng. Không thể chuyển!");
+            }
         }
 
         return $this->render('update', [
@@ -153,9 +160,19 @@ class StaffController extends Controller
     public function actionDelete($id)
     {
         $model = $this->findModel($id);
+        $checkAdmin = Admin::find()->where(['admin_id' => $model->id])->all();
+        $checkClub = Staffnclub::find()->where(['staff_id' => $model->id])->all();
         if ($model->id != null) {
-            $this->setSession($model, 'delete');
-            return $this->redirect(['confirm']);
+            if ($checkAdmin == null) {
+                if ($checkClub == null) {
+                    $this->setSession($model, 'delete');
+                    return $this->redirect(['confirm']);
+                }else {
+                    Yii::$app->session->setFlash('error', 'Đang tham gia câu lạc bộ không xóa được nhé!');
+                }
+            } else {
+                Yii::$app->session->setFlash('error', 'Đang là trưởng phòng không xóa được nhé!');
+            }
         }
 
         return $this->redirect(['index']);
@@ -192,6 +209,7 @@ class StaffController extends Controller
                 $modelCheck->staff_tel = $model->staff_tel;
                 $modelCheck->status = $model->status;
                 $modelCheck->updated_at = $model->updated_at;
+                $modelCheck->dep_id = $model->dep_id;
                 if ($model->load(Yii::$app->request->post())) {
                     if ($modelCheck->save()) {
                         return $this->render('success', [
@@ -282,7 +300,7 @@ class StaffController extends Controller
 
     public function actionStafflists($id)
     {
-        $rows = Staff::find()->where(['dep_id' => $id])->all();
+        $rows = Staff::find()->where(['dep_id' => $id, 'status' => 1])->all();
 
         echo "<option>-- Chon truong phong --</option>";
 

@@ -1,7 +1,10 @@
 <?php
 
 use yii\helpers\Html;
-use yii\widgets\ActiveForm;
+use yii\bootstrap4\ActiveForm;
+use yii\helpers\ArrayHelper;
+use backend\models\Staff;
+use backend\models\Club;
 
 /* @var $this yii\web\View */
 /* @var $model backend\models\StaffnclubSearch */
@@ -15,18 +18,16 @@ use yii\widgets\ActiveForm;
         'method' => 'get',
     ]); ?>
 
-    <?= $form->field($model, 'id') ?>
+    <?= $form->field($model, 'club_id')->dropDownList(ArrayHelper::map(Club::find()->all(),'id','club_name'),[
+            'prompt'=>'-- Chọn câu lạc bộ --',
+    ]) ?>
 
-    <?= $form->field($model, 'club_id') ?>
-
-    <?= $form->field($model, 'staff_id') ?>
-
-    <?= $form->field($model, 'created_at') ?>
-
-    <?= $form->field($model, 'updated_at') ?>
+    <?= $form->field($model, 'staff_id')->dropDownList(ArrayHelper::map(Staff::find()->all(),'id','staff_name'),[
+        'prompt'=>'-- Chọn thành viên --',
+    ]) ?>
 
     <div class="form-group">
-        <?= Html::submitButton(Yii::t('app', 'Search'), ['class' => 'btn btn-primary']) ?>
+        <?= Html::submitButton(Yii::t('app', 'Tìm kiếm'), ['class' => 'btn btn-primary']) ?>
         <?= Html::resetButton(Yii::t('app', 'Reset'), ['class' => 'btn btn-outline-secondary']) ?>
     </div>
 

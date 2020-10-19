@@ -73,15 +73,20 @@ class AdminController extends Controller
         $model->updated_at = $time;
 
         if ($model->load(Yii::$app->request->post())) {
-            $staff = Staff::find()->where(['id' => $model->admin_id])->one();
-            $model->admin_name = $staff->staff_name;
-            $model->admin_email = $staff->staff_email;
-            $model->admin_phone = $staff->staff_tel;
-            if ($model->save()){
-            return $this->redirect(['view', 'id' => $model->id]);
+            $checkAdmin = Admin::find()->where(['dep_id' => $model->dep_id])->all();
+            if ($checkAdmin == null) {
+                $staff = Staff::find()->where(['id' => $model->admin_id])->one();
+                $model->admin_name = $staff->staff_name;
+                $model->admin_email = $staff->staff_email;
+                $model->admin_phone = $staff->staff_tel;
+                if ($model->save()) {
+                    return $this->redirect(['view', 'id' => $model->id]);
+                } else {
+                    print_r($model->errors);
+                    die();
+                }
             }else{
-                print_r($model->errors);
-                die();
+                Yii::$app->session->setFlash('error',"Phòng đã có trưởng phòng! Vui lòng cập nhật nếu muốn thay đổi.");
             }
         }
 
