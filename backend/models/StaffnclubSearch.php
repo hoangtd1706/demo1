@@ -4,12 +4,12 @@ namespace backend\models;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use backend\models\Staff;
+use backend\models\Staffnclub;
 
 /**
- * StaffSearch represents the model behind the search form of `backend\models\Staff`.
+ * StaffnclubSearch represents the model behind the search form of `backend\models\Staffnclub`.
  */
-class StaffSearch extends Staff
+class StaffnclubSearch extends Staffnclub
 {
     /**
      * {@inheritdoc}
@@ -17,8 +17,7 @@ class StaffSearch extends Staff
     public function rules()
     {
         return [
-            [['id', 'dep_id', 'status', 'created_at', 'updated_at'], 'integer'],
-            [['staff_name', 'staff_email', 'staff_tel'], 'safe'],
+            [['id', 'club_id', 'staff_id', 'created_at', 'updated_at'], 'integer'],
         ];
     }
 
@@ -40,7 +39,7 @@ class StaffSearch extends Staff
      */
     public function search($params)
     {
-        $query = Staff::find();
+        $query = Staffnclub::find();
 
         // add conditions that should always apply here
 
@@ -59,15 +58,11 @@ class StaffSearch extends Staff
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'dep_id' => $this->dep_id,
-            'status' => $this->status,
+            'club_id' => $this->club_id,
+            'staff_id' => $this->staff_id,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ]);
-
-        $query->andFilterWhere(['like', 'staff_name', $this->staff_name])
-            ->andFilterWhere(['like', 'staff_email', $this->staff_email])
-            ->andFilterWhere(['like', 'staff_tel', $this->staff_tel]);
 
         return $dataProvider;
     }

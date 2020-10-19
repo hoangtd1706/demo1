@@ -4,10 +4,10 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model backend\models\Department */
+/* @var $model backend\models\Admin */
 
 $this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Departments', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Admins'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
@@ -17,16 +17,16 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
     <div class="card-body">
         <div class="table-responsive p-1">
-            <div class="department-view">
+            <div class="admin-view">
 
                 <h1><?= Html::encode($this->title) ?></h1>
 
                 <p>
-                    <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-                    <?= Html::a('Delete', ['delete', 'id' => $model->id], [
+                    <?= Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+                    <?= Html::a(Yii::t('app', 'Delete'), ['delete', 'id' => $model->id], [
                         'class' => 'btn btn-danger',
                         'data' => [
-                            'confirm' => 'Are you sure you want to delete this item?',
+                            'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
                             'method' => 'post',
                         ],
                     ]) ?>
@@ -36,11 +36,14 @@ $this->params['breadcrumbs'][] = $this->title;
                     'model' => $model,
                     'attributes' => [
                         'id',
-                        'dep_name',
-                        'dep_desciption',
+                        'admin_name',
+                        'admin_id',
+                        'dep_id',
+                        'admin_phone',
                         'status',
                         'created_at',
                         'updated_at',
+                        'admin_email:email',
                     ],
                 ]) ?>
 

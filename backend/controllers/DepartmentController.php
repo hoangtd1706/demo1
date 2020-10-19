@@ -75,37 +75,13 @@ class DepartmentController extends Controller
         $model->created_at = $time;
         $model->updated_at = $time;
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-            /*$session->set('dep_name', $model->dep_name);
-            $session->set('dep_desciption', $model->dep_desciption);
-            $session->set('dep_status', $model->status);
-            $session->set('created_at', $model->created_at);
-            $session->set('updated_at', $model->updated_at);*/
-            $this->actionSetSession($model);
+            $this->actionSetSession($model, 'create');
             return $this->redirect('confirm');
         }
 
         return $this->render('create', [
             'model' => $model,
         ]);
-    }
-
-
-
-    public function actionConfirm()
-    {
-
-        $model = $this->actionGetSession();
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->render('success',
-                [
-                    'model' => $model,
-                    'message' => 'Thêm mới thành công!',
-                ]);
-        }
-        return $this->render('confirm', [
-            'model' => $model,
-        ]);
-
     }
 
 
@@ -123,13 +99,8 @@ class DepartmentController extends Controller
         $model = $this->findModel($id);
         $model->updated_at = $time;
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            //$this->actionSetSession($model);
-            //return $this->redirect('confirm');
-            return $this->render('success',
-                [
-                    'model' => $model,
-                    'message' => 'Cập nhật thành công!',
-                ]);
+            $this->actionSetSession($model, 'update');
+            return $this->redirect('confirm');
         }
 
         return $this->render('update', [
@@ -146,18 +117,13 @@ class DepartmentController extends Controller
      */
     public function actionDelete($id)
     {
-        $dep_name = Department::getOne($id);
-        $model = Staff::find()->where(['dep_name' => $dep_name->dep_name, 'status' => 1])->asArray()->all();
-        if ($model != null) {
-            throw new \yii\web\HttpException(403, "Phòng đang có người không xóa được nhé!");
+        $dep = Department::getOne($id);
+        $model = Staff::find()->where(['dep_id' => $dep->id, 'status' => 1])->asArray()->all();
+        if ($model == null) {
+            $this->actionSetSession($dep, 'delete');
+            return $this->redirect('confirm');
         } else {
-            $mo = Department::findOne($id);
-            $this->findModel($id)->delete();
-            return $this->render('success',
-                [
-                    'model' => $mo,
-                    'message' => 'Xóa thành công!',
-                ]);
+            throw new \yii\web\HttpException(403, "Phòng đang có người không xóa được nhé!");
         }
     }
 
@@ -166,10 +132,82 @@ class DepartmentController extends Controller
         $this->render('error');
     }
 
-    public function actionSetSession($model)
+    public function actionConfirm()
+    {
+        $session = Yii::$app->session;
+        $act = $session->get('action');
+        $model = $this->actionGetSession();
+        $modelCheck = Department::findOne($model->id);
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->render('success',
+                [
+                    'model' => $model,
+                    'message' => 'Thêm mới thành công!',
+                ]);
+        }
+
+
+        switch ($act) {
+            case "create":
+                if ($model->load(Yii::$app->request->post())) {
+                    if ($model->save()) {
+                        return $this->render('success',
+                            [
+                                'model' => $model,
+                                'message' => 'Thêm mới thành công!'
+                            ]);
+                    } else {
+                        print_r($model->errors);
+                        die();
+                    }
+                }
+                break;
+            case "update":
+                $modelCheck->dep_name = $model->dep_name;
+                $modelCheck->dep_desciption = $model->dep_desciption;
+                $modelCheck->status = $model->status;
+                $modelCheck->updated_at = $model->updated_at;
+                if ($model->load(Yii::$app->request->post())) {
+                    if ($modelCheck->save()) {
+                        return $this->render('success',
+                            [
+                                'model' => $modelCheck,
+                                'message' => 'Cập nhật thành công!'
+                            ]);
+                    } else {
+                        print_r($model->errors);
+                        die();
+                    }
+                }
+                break;
+            case "delete":
+                if ($model->load(Yii::$app->request->post())) {
+                    if ($this->findModel($model->id)->delete()) {
+                        return $this->render('success', [
+                            'model' => $model,
+                            'message' => 'Xóa thành công!'
+                        ]);
+                    }
+                }
+                break;
+
+            default:
+                $this->render('confirm', [
+                    'model' => $model,
+                    'act' => $act,
+                ]);
+        }
+        return $this->render('confirm', [
+            'model' => $model,
+            'act' => $act,
+        ]);
+    }
+
+    public function actionSetSession($model, $action)
     {
         if ($model != null) {
             $session = Yii::$app->session;
+            $session->set('action', $action);
             $session->set('dep_id', $model->id);
             $session->set('dep_name', $model->dep_name);
             $session->set('dep_desciption', $model->dep_desciption);
@@ -185,6 +223,7 @@ class DepartmentController extends Controller
     {
         $model = new Department();
         $session = Yii::$app->session;
+        $act = $session->get('action');
         $model->id = $session->get('dep_id');
         $model->dep_name = $session->get('dep_name');
         $model->dep_desciption = $session->get('dep_desciption');
