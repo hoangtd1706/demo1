@@ -53,11 +53,6 @@ class StaffController extends Controller
                     $this->updateDepToStaff((int)$staff, ((int)$dep['dep_id']));
                 }
             }
-            return $this->render('index', [
-                'searchModel' => $searchModel,
-                'dataProvider' => $dataProvider,
-                'model' => $searchModel,
-            ]);
         }
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -133,14 +128,18 @@ class StaffController extends Controller
         $model = $this->findModel($id);
         $model->updated_at = $time;
         $clubs = Club::find()->all();
-        $checkAdmin = Admin::find()->where(['admin_id' => $model->id])->all();
+        $checkAdmin = Admin::find()->where(['admin_id' => $model->id])->one();
         if ($model->load(Yii::$app->request->post())) {
-            if ($checkAdmin == null) {
-                print_r($model->dep_id);
+            if ($checkAdmin != null) {
+                if ($checkAdmin['dep_id'] == $model->dep_id && $model->status == 1){
                 $this->setSession($model, 'update');
                 return $this->redirect(['confirm']);
+                }else{
+                    Yii::$app->session->setFlash('error', $model->staff_name . " đang là trưởng phòng. Không thể thay đổi phòng ban và trạng thái!");
+                }
             } else {
-                Yii::$app->session->setFlash('error', $model->staff_name . " đang là trưởng phòng. Không thể chuyển!");
+                $this->setSession($model, 'update');
+                return $this->redirect(['confirm']);
             }
         }
 
@@ -182,6 +181,7 @@ class StaffController extends Controller
     {
         $session = Yii::$app->session;
         $act = $session->get('action');
+        $time = time();
         $model = new Staff();
         $model->id = $session->get('staff_id');
         $model->staff_name = $session->get('staff_name');
@@ -210,8 +210,17 @@ class StaffController extends Controller
                 $modelCheck->status = $model->status;
                 $modelCheck->updated_at = $model->updated_at;
                 $modelCheck->dep_id = $model->dep_id;
+                $checkAdmin = Admin::find()->where(['admin_id'=>$modelCheck->id])->one();
                 if ($model->load(Yii::$app->request->post())) {
                     if ($modelCheck->save()) {
+                        if ($checkAdmin != null){
+                            $checkAdmin['admin_name'] = $modelCheck->staff_name;
+                            $checkAdmin['admin_phone'] = $modelCheck->staff_tel;
+                            $checkAdmin['admin_email'] = $modelCheck->staff_email;
+                            $checkAdmin['updated_at'] = $time;
+                            $checkAdmin->save();
+                        }
+                        $this->setSession($model,'');
                         return $this->render('success', [
                             'model' => $model,
                             'message' => 'Cập nhật thành công!',
@@ -302,14 +311,14 @@ class StaffController extends Controller
     {
         $rows = Staff::find()->where(['dep_id' => $id, 'status' => 1])->all();
 
-        echo "<option>-- Chon truong phong --</option>";
+        echo "<option>-- Chọn nhân viên --</option>";
 
         if (count($rows) > 0) {
             foreach ($rows as $row) {
                 echo "<option value='$row->id'>$row->id - $row->staff_name - $row->staff_email</option>";
             }
         } else {
-            echo "<option>Khong co nhan vien nao</option>";
+            echo "<option>Không có nhân viên nào</option>";
         }
 
     }

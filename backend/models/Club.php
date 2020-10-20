@@ -32,10 +32,11 @@ class Club extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['club_name'], 'required'],
+            [['club_name'], 'required','message'=> '{attribute} không được để trống!'],
             [['status', 'created_at', 'updated_at'], 'integer'],
-            [['club_name', 'club_description'], 'string', 'max' => 255],
-            [['staff_id'],'integer']
+            [['club_name'], 'string', 'max' => 50,'message'=> '{attribute} không được đặt quá dài!'],
+            [['club_description'], 'string', 'max' => 255],
+            //[['staff_id'],'integer']
         ];
     }
 
@@ -46,12 +47,12 @@ class Club extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'club_name' => Yii::t('app', 'Club Name'),
-            'club_description' => Yii::t('app', 'Club Description'),
-            'staff_id',
-            'status' => Yii::t('app', 'Status'),
-            'created_at' => Yii::t('app', 'Created At'),
-            'updated_at' => Yii::t('app', 'Updated At'),
+            'club_name' => Yii::t('app', 'Tên câu lạc bộ'),
+            'club_description' => Yii::t('app', 'Giới thiệu'),
+            //'staff_id',
+            'status' => Yii::t('app', 'Trạng thái'),
+            'created_at' => Yii::t('app', 'Ngày tạo'),
+            'updated_at' => Yii::t('app', 'Ngày cập nhật'),
         ];
     }
 

@@ -28,14 +28,19 @@ $this->title = Yii::t('app', 'Confirm');
                             'attribute' => 'dep_id',
                             'value' => function ($model) {
                                 if ($model->dep_id == 0) {
-                                    return "khong co phong ban nao";
+                                    return "Không thuộc phòng ban nào";
                                 } else {
                                     $dep = Department::find()->where(['id' => $model->dep_id])->one();
                                     return $dep->dep_name;
                                 }
                             }
                         ],
-                        'status',
+                        [
+                            'attribute' => 'status',
+                            'value' => function ($model) {
+                                return $model->status == 1 ? 'Hoạt động' : 'Không hoạt động';
+                            }
+                        ],
                         'created_at:date',
                         'updated_at:date',
                     ],

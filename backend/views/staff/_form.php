@@ -17,8 +17,8 @@ $clubs = Club::find()->all();
 ?>
 
 <div class="staff-form overflow-hidden p-2">
-    <?php if ($this->title != "Create Staff"): ?>
-        <?= Html::button('Tham gia cau lac bo', [
+    <?php if ($this->title != "Thêm nhân viên"): ?>
+        <?= Html::button('Tham gia câu lạc bộ', [
             'value' => Url::to('http://localhost:1999/demo1/backend/web/club/listsclub?id=' . $model->id),
             'class' => 'btn btn-outline-success', 'id' => 'modalButton'
         ]) ?>
@@ -53,7 +53,7 @@ $clubs = Club::find()->all();
         ]) ?>
 
     <div class="form-group">
-        <?= Html::submitButton(Yii::t('app', 'Thêm mới'), ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-success']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

@@ -5,8 +5,8 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model backend\models\Staffnclub */
 
-$this->title = Yii::t('app', 'Create Staffnclub');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Staffnclubs'), 'url' => ['index']];
+$this->title = Yii::t('app', 'Thêm thành viên');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Chi tiết câu lạc bộ'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="card shadow mb-4">

@@ -7,7 +7,7 @@ use yii\grid\GridView;
 /* @var $searchModel backend\models\AdminSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', 'Admins');
+$this->title = Yii::t('app', 'Trưởng phòng');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="card shadow mb-4">
@@ -19,7 +19,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="admin-index">
 
                 <p>
-                    <?= Html::a(Yii::t('app', 'Create Admin'), ['create'], ['class' => 'btn btn-success']) ?>
+                    <?= Html::a(Yii::t('app', 'Tạo trưởng phòng'), ['create'], ['class' => 'btn btn-success']) ?>
                 </p>
 
                 <?php echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -37,7 +37,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             'attribute' => 'dep_id',
                             'value' => function ($value) {
                                 if ($value == null) {
-                                    return "khong co phong ban";
+                                    return "Không có phòng ban";
                                 } else {
                                     $dep = \backend\models\Department::findOne($value->dep_id);
                                     return $dep->dep_name;
@@ -48,7 +48,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         //'status',
                         //'created_at',
                         //'updated_at',
-                        //'admin_email:email',
+                        'admin_email:email',
 
                         ['class' => 'yii\grid\ActionColumn',
                             'buttons' => [
@@ -64,12 +64,12 @@ $this->params['breadcrumbs'][] = $this->title;
                                         'class' => 'btn btn-sm ml-2 btn-success',
                                     ]);
                                 },
-                                'delete' => function ($url) {
+                                'delete' => function ($url, $model) {
                                     return Html::a('<i class="fas fa-trash"></i>', $url, [
                                         'title' => Yii::t('app', 'delete'),
                                         'class' => 'btn btn-sm ml-2 btn-danger',
                                         'data' => [
-                                            'confirm' => 'Are you sure you want to delete this item?',
+                                            'confirm' => 'Bạn muốn xóa trưởng phòng: '.$model->admin_name.'?',
                                             'method' => 'post',
                                         ],
                                     ]);

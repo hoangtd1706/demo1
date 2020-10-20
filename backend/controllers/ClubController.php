@@ -67,8 +67,10 @@ class ClubController extends Controller
      */
     public function actionCreate()
     {
+        $time = time();
         $model = new Club();
-
+        $model->created_at = $time;
+        $model->updated_at = $time;
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }
@@ -87,8 +89,9 @@ class ClubController extends Controller
      */
     public function actionUpdate($id)
     {
+        $time = time();
         $model = $this->findModel($id);
-
+        $model->updated_at = $time;
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }
@@ -107,9 +110,17 @@ class ClubController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $checkClub = Staffnclub::find()->where(['club_id' => $id])->all();
+        if ($checkClub == null) {
+            if ($this->findModel($id)->delete()){
+                return $this->redirect(['index']);
+            }
+        }
+        else{
+            Yii::$app->session->setFlash('error','Câu lạc bộ đang có thành viên!');
+            return $this->redirect(['index']);
+        }
 
-        return $this->redirect(['index']);
     }
 
     /**
@@ -134,14 +145,14 @@ class ClubController extends Controller
         $searchModel = new ClubSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         $staff = Staff::findOne($id);
-        $staffs = Staff::find()->where(['id'=>$id])->all();
+        $staffs = Staff::find()->where(['id' => $id])->all();
 
 
         $chk = Yii::$app->request->post('selection');
         if (Yii::$app->request->post('selection') && $chk != null) {
             foreach ($chk as $check) {
                 if (Staffnclub::find()->where(['club_id' => $check, 'staff_id' => $id])->one()) {
-                    print_r(Staffnclub::find()->where(['club_id' => $check, 'staff_id' => $id])->one());
+                    //print_r(Staffnclub::find()->where(['club_id' => $check, 'staff_id' => $id])->one());
                 } else {
                     $model = new Staffnclub();
                     $model->created_at = $time;

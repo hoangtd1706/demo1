@@ -5,9 +5,9 @@ use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
 /* @var $model backend\models\Staffnclub */
-
-$this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Staffnclubs'), 'url' => ['index']];
+$staff_name = \backend\models\Staff::findOne($model->staff_id);
+$this->title = $model->id .' - '. $staff_name->staff_name;
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Chi tiết câu lạc bộ'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
@@ -19,14 +19,12 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="table-responsive p-1">
             <div class="staffnclub-view">
 
-                <h1><?= Html::encode($this->title) ?></h1>
-
                 <p>
                     <?= Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
                     <?= Html::a(Yii::t('app', 'Delete'), ['delete', 'id' => $model->id], [
                         'class' => 'btn btn-danger',
                         'data' => [
-                            'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
+                            'confirm' => Yii::t('app', 'Bạn muốn xóa thành viên: ' .$staff_name->staff_name. '?'),
                             'method' => 'post',
                         ],
                     ]) ?>
@@ -36,10 +34,32 @@ $this->params['breadcrumbs'][] = $this->title;
                     'model' => $model,
                     'attributes' => [
                         'id',
-                        'club_id',
-                        'staff_id',
-                        'created_at',
-                        'updated_at',
+                        [
+                            'attribute' => 'club',
+                            'value' => function ($model) {
+                                $club = \backend\models\Club::findOne($model->club_id);
+                                return $club->id . ' - ' . $club->club_name;
+                            }
+                        ],
+                        [
+                            'attribute' => 'staff',
+                            'value' => function ($model) {
+                                $staff = \backend\models\Staff::findOne($model->staff_id);
+                                return $staff->id . ' - ' . $staff->staff_name;
+                            }
+                        ],
+                        [
+                            'attribute' => 'created_at',
+                            'value' => function ($model) {
+                                return date('d-m-Y', $model->created_at);
+                            }
+                        ],
+                        [
+                            'attribute' => 'updated_at',
+                            'value' => function ($model) {
+                                return date('d-m-Y', $model->updated_at);
+                            }
+                        ],
                     ],
                 ]) ?>
 

@@ -36,7 +36,7 @@ class Admin extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['admin_name', 'admin_id', 'dep_id'], 'required'],
+            [['admin_name', 'admin_id', 'dep_id'], 'required','message'=>'{attribute) không được để trống!'],
             [['admin_id', 'dep_id', 'status', 'created_at', 'updated_at'], 'integer'],
             [['admin_name', 'admin_phone', 'admin_email'], 'string', 'max' => 255],
             [['admin_id'], 'unique'],
@@ -53,14 +53,14 @@ class Admin extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'admin_name' => Yii::t('app', 'Admin Name'),
-            'admin_id' => Yii::t('app', 'Admin ID'),
-            'dep_id' => Yii::t('app', 'Dep ID'),
-            'admin_phone' => Yii::t('app', 'Admin Phone'),
-            'status' => Yii::t('app', 'Status'),
-            'created_at' => Yii::t('app', 'Created At'),
-            'updated_at' => Yii::t('app', 'Updated At'),
-            'admin_email' => Yii::t('app', 'Admin Email'),
+            'admin_name' => Yii::t('app', 'Tên trưởng phòng'),
+            'admin_id' => Yii::t('app', 'ID trưởng phòng'),
+            'dep_id' => Yii::t('app', 'Phòng ban'),
+            'admin_email' => Yii::t('app', 'Email'),
+            'admin_phone' => Yii::t('app', 'SĐT'),
+            'status' => Yii::t('app', 'Trạng thái'),
+            'created_at' => Yii::t('app', 'Ngày tạo'),
+            'updated_at' => Yii::t('app', 'Ngày cập nhật'),
         ];
     }
 

@@ -30,7 +30,13 @@ $this->title = Yii::t('app', $message);
                         'staff_name',
                         'staff_email',
                         'staff_tel',
-                        'dep_id',
+                        [
+                            'attribute' => 'dep_id',
+                            'value' => function ($model) {
+                                $dep = \backend\models\Department::findOne($model->dep_id);
+                                return $dep->id . ' - ' . $dep->dep_name;
+                            }
+                        ],
                         [
                             'attribute' => 'status',
                             'value' => (($model->status == 1) ? "Hoạt động" : "Không hoạt động"),
@@ -45,7 +51,7 @@ $this->title = Yii::t('app', $message);
                         <div class="d-flex shadow-sm">
                             <div class="row">
                                 <div class="col-12">
-                                    <?= Html::a(Yii::t('app', '&larr; Back to Dashboard'), 'index', ['class' => 'btn btn-success btn-block',]) ?>
+                                    <?= Html::a(Yii::t('app', '&larr; Quay xe'), 'index', ['class' => 'btn btn-success btn-block',]) ?>
                                 </div>
                             </div>
                         </div>

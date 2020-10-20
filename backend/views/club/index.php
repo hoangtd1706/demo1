@@ -6,7 +6,7 @@ use yii\grid\GridView;
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', 'Clubs');
+$this->title = Yii::t('app', 'Câu lạc bộ');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="card shadow mb-4">
@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="club-index">
 
                 <p>
-                    <?= Html::a(Yii::t('app', 'Create Club'), ['create'], ['class' => 'btn btn-success']) ?>
+                    <?= Html::a(Yii::t('app', 'Tạo câu lạc bộ'), ['create'], ['class' => 'btn btn-success']) ?>
                 </p>
 
                 <?= GridView::widget([
@@ -36,8 +36,18 @@ $this->params['breadcrumbs'][] = $this->title;
                                 return $model->status == 1 ? 'Hoạt động' : 'Không hoạt động';
                             }
                         ],
-                        'created_at',
-                        //'updated_at',
+                        [
+                            'attribute' => 'created_at',
+                            'value' => function ($model) {
+                                return date('d-m-Y', $model->created_at);
+                            }
+                        ],
+                        [
+                            'attribute' => 'updated_at',
+                            'value' => function ($model) {
+                                return date('d-m-Y', $model->updated_at);
+                            },
+                        ],
 
                         ['class' => 'yii\grid\ActionColumn',
                             'buttons' => [
@@ -53,12 +63,12 @@ $this->params['breadcrumbs'][] = $this->title;
                                         'class' => 'btn btn-sm ml-2 btn-success',
                                     ]);
                                 },
-                                'delete' => function ($url) {
+                                'delete' => function ($url,$model) {
                                     return Html::a('<i class="fas fa-trash"></i>', $url, [
                                         'title' => Yii::t('app', 'delete'),
                                         'class' => 'btn btn-sm ml-2 btn-danger',
                                         'data' => [
-                                            'confirm' => 'Are you sure you want to delete this item?',
+                                            'confirm' => 'Bạn muốn xóa câu lạc bộ: '.$model->club_name.'?',
                                             'method' => 'post',
                                         ],
                                     ]);

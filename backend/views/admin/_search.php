@@ -20,11 +20,11 @@ use backend\models\Admin;
     <?= $form->field($model, 'admin_name') ?>
 
     <?= $form->field($model, 'admin_id')->dropDownList(ArrayHelper::map(Admin::find()->all(),'id','admin_name'),[
-            'prompt'=>'-- Chon truong phong --',
+            'prompt'=>'-- Chọn trưởng phòng --',
     ]) ?>
 
-    <?= $form->field($model, 'dep_id')->dropDownList(ArrayHelper::map(Admin::find()->all(),'id','dep_id'),[
-        'prompt'=>'-- Chon phong ban --',
+    <?= $form->field($model, 'dep_id')->dropDownList(ArrayHelper::map(\backend\models\Department::find()->all(),'id','dep_name'),[
+        'prompt'=>'-- Chọn phòng ban --',
     ]) ?>
 
     <?php // echo $form->field($model, 'status') ?>

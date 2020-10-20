@@ -14,7 +14,7 @@ use yii\helpers\ArrayHelper;
 /* @var $form yii\bootstrap4\ActiveForm */
 /* @var $message string */
 
-$this->title = Yii::t('app', 'Staff');
+$this->title = Yii::t('app', 'Nhân viên');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="staff-index">
@@ -34,7 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="card-body">
             <div class="table-responsive p-1">
                 <p>
-                    <?= Html::a(Yii::t('app', 'Create Staff'), ['create'], ['class' => 'btn btn-success']) ?>
+                    <?= Html::a(Yii::t('app', 'Thêm nhân viên'), ['create'], ['class' => 'btn btn-success']) ?>
                 </p>
 
                 <?php echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -63,7 +63,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             'attribute' => 'dep_id',
                             'value' => function ($model) {
                                 if ($model->dep_id == 0) {
-                                    return 'Khong thuoc phong ban nao!';
+                                    return 'Không thuộc phòng ban nào!';
                                 } else {
                                     $dep = Department::findOne($model->dep_id);
                                     return $dep->dep_name;
@@ -71,7 +71,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             }
                         ],
                         [
-                            'attribute' => 'Club',
+                            'attribute' => 'Câu lạc bộ tham gia',
                             'value' => function ($model) {
 
                                 $query = new \yii\db\Query();
