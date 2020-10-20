@@ -22,10 +22,12 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
             <h5 class="m-0 font-weight-bold text-primary"><?= Html::encode($this->title) ?></h5>
             <div class="dropdown no-arrow">
-                <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
+                   aria-haspopup="true" aria-expanded="false">
                     <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
                 </a>
-                <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
+                <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                     aria-labelledby="dropdownMenuLink">
                     <span class="dropdown-item bg-success" href="#">Hoạt động</span>
                     <span class="dropdown-item" href="#">Không hoạt động</span>
                 </div>
@@ -33,11 +35,15 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
         <div class="card-body">
             <div class="table-responsive p-1">
-                <p>
-                    <?= Html::a(Yii::t('app', 'Thêm nhân viên'), ['create'], ['class' => 'btn btn-success']) ?>
-                </p>
+                <div class="form-group row">
+                    <label for="staticEmail" class="col-sm-2 col-form-label">Tạo mới nhân viên</label>
+                    <div class="col-sm-10">
+                        <?= Html::a(Yii::t('app', 'Add'), ['create'], ['class' => 'btn btn-success']) ?>
+                    </div>
+                </div>
 
                 <?php echo $this->render('_search', ['model' => $searchModel]); ?>
+
                 <?php if (Yii::$app->session->hasFlash('nodata')): ?>
                     <div class="alert alert-danger alert-dismissible">
                         <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
@@ -47,19 +53,28 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?php $form = ActiveForm::begin(); ?>
                 <?= GridView::widget([
                     'dataProvider' => $dataProvider,
+                    'pager' => [
+                        'class' => \yii\bootstrap4\LinkPager::class,
+                    ],
                     //'filterModel' => $searchModel,
-                    'rowOptions'=>function($model){
-                        if ($model->status == 1){
-                            return ['class'=>'table-success'];
+                    'tableOptions'=>[
+                            'class'=>'table table-hover table-bordered',
+                    ],
+                    'rowOptions' => [
+                        'class'=>'table table-hover'
+                    ],
+                    /*'rowOptions' => function ($model) {
+                        if ($model->status == 1) {
+                            return ['class' => 'table-success'];
                         }
-                    },
+                    },*/
                     'columns' => [
                         ['class' => 'yii\grid\CheckBoxColumn'],
                         'id',
                         'staff_name',
                         'staff_email:email',
                         'staff_tel',
-                        [
+                        /*[
                             'attribute' => 'dep_id',
                             'value' => function ($model) {
                                 if ($model->dep_id == 0) {
@@ -85,7 +100,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 }
                                 return $club;
                             }
-                        ],
+                        ],*/
                         //'status',
                         //'created_at',
                         //'updated_at',

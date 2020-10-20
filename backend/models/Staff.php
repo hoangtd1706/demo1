@@ -47,6 +47,7 @@ class Staff extends \yii\db\ActiveRecord
                     return trim(htmlentities(strip_tags($value), ENT_QUOTES, 'UTF-8'));
                 }
             ],
+            [['staff_tel'], 'match', 'pattern'=>'/(09|01[2|6|8|9])+([0-9]{8})\b/', 'message'=>'{attribute} không đúng định dạng!']
             /*[['club_id'],'integer'],*/
         ];
     }

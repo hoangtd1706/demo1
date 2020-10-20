@@ -58,7 +58,7 @@ AppAsset::register($this);
             <div class="bg-white py-2 collapse-inner rounded">
                 <!--                        <h6 class="collapse-header"></h6>-->
                 <a class="collapse-item" href="<?php echo Yii::$app->homeUrl. 'department' ?>">Phòng ban</a>
-                <a class="collapse-item" href="<?php echo Yii::$app->homeUrl. 'admin' ?>">Nhân viên</a>
+                <a class="collapse-item" href="<?php echo Yii::$app->homeUrl. 'admin' ?>">Trưởng phòng</a>
             </div>
         </div>
     </li>

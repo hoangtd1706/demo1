@@ -11,53 +11,38 @@ use yii\bootstrap4\ActiveForm;
 $this->title = 'Login';
 ?>
 <div class="site-login">
-
-    <!-- Outer Row -->
-    <div class="row justify-content-center">
-
-        <div class="col-xl-10 col-lg-12 col-md-9">
-
-            <div class="card o-hidden border-0 shadow-lg my-5">
-                <div class="card-body p-0">
-                    <!-- Nested Row within Card Body -->
-                    <div class="row">
-                        <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
-                        <div class="col-lg-6">
-                            <div class="p-5">
-                                <div class="text-center">
-                                    <h1 class="h4 text-gray-900 mb-4"><?= Html::encode($this->title) ?></h1>
-                                    <p>Please fill out the following fields to login:</p>
-                                </div>
-                                <div class="container">
-
-                                    <?php $form = ActiveForm::begin(['class' => 'user', 'id' => 'login-form']); ?>
-
-                                    <?= $form->field($model, 'username')->textInput(['autofocus' => true, 'class' => 'form-control form-control-user']) ?>
-
-                                    <?= $form->field($model, 'password')->passwordInput(['class' => 'form-control form-control-user']) ?>
-
-                                    <?= $form->field($model, 'rememberMe')->checkbox(['class' => 'custom-control-input']) ?>
-
-                                    <div class="form-group">
-                                        <?= Html::submitButton('Login', ['class' => 'btn btn-primary btn-user btn-block', 'name' => 'login-button']) ?>
-                                    </div>
-                                    <a href="index.html" class="btn btn-google btn-user btn-block">
-                                        <i class="fab fa-google fa-fw"></i> Login with Google
-                                    </a>
-                                    <a href="index.html" class="btn btn-facebook btn-user btn-block">
-                                        <i class="fab fa-facebook-f fa-fw"></i> Login with Facebook
-                                    </a>
-                                    <?php ActiveForm::end(); ?>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
+    <div class="col-sm-12 col-md-4 mt-4">
+        <div class="">
+           <!-- <h1 class="h4 text-gray-900 mb-4"><?/*= Html::encode($this->title) */?></h1>-->
+            <p>Hãy nhập LoginID và Password</p>
         </div>
 
+
+        <?php $form = ActiveForm::begin(['class' => 'user', 'id' => 'login-form']); ?>
+        <div class="form-group row">
+            <label for="staticEmail" class="col-sm-2 col-form-label">LoginID</label>
+            <div class="col-sm-10">
+                <?= $form->field($model, 'username')->textInput(['autofocus' => true, 'class' => 'form-control form-control-user'])->label(false) ?>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="inputPassword" class="col-sm-2 col-form-label">Password</label>
+            <div class="col-sm-10">
+                <?= $form->field($model, 'password')->passwordInput(['class' => 'form-control form-control-user'])->label(false) ?>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="inputPassword" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-10">
+                <?= $form->field($model, 'rememberMe')->checkbox(['class' => 'custom-control-input']) ?>
+            </div>
+        </div>
+
+
+        <div class="form-group d-flex justify-content-center">
+            <?= Html::submitButton('Login', ['class' => 'btn btn-primary btn-user', 'name' => 'login-button']) ?>
+        </div>
+
+        <?php ActiveForm::end(); ?>
     </div>
 </div>
