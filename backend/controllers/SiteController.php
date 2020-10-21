@@ -3,6 +3,7 @@
 namespace backend\controllers;
 
 use app\models\User;
+use backend\models\StaffSearch;
 use Yii;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
@@ -83,7 +84,14 @@ class SiteController extends Controller
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
+            return $this->redirect('/demo1/backend/web/staff');
+        } else if ($model->errors) {
+            $model->password = '';
+
+
+            return $this->render('login', [
+                'model' => $model,
+            ]);
         } else {
             $model->password = '';
             return $this->render('login', [
@@ -92,8 +100,9 @@ class SiteController extends Controller
         }
     }
 
-    public function actionError(){
-        if($error= Yii::app()->errorHandler->error)
+    public function actionError()
+    {
+        if ($error = Yii::app()->errorHandler->error)
             $this->render('error', $error);
     }
 
@@ -104,11 +113,13 @@ class SiteController extends Controller
         echo '</script>';
     }
 
-    public function actionSuccess(){
+    public function actionSuccess()
+    {
         return $this->render('success');
     }
 
-    public function actionConfirm(){
+    public function actionConfirm()
+    {
         return $this->render('confirm');
     }
 

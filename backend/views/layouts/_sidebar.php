@@ -49,7 +49,7 @@ AppAsset::register($this);
     </li>
 
     <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
+        <a class="nav-link collapsed" href="<?php echo Yii::$app->homeUrl. 'department' ?>" data-toggle="collapse" data-target="#collapseTwo"
            aria-expanded="true" aria-controls="collapseTwo">
             <i class="fas fa-house-user"></i>
             <span>Phòng ban</span></a>
@@ -65,7 +65,7 @@ AppAsset::register($this);
 
 
     <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo1"
+        <a class="nav-link collapsed" href="<?php echo Yii::$app->homeUrl. 'club' ?>" data-toggle="collapse" data-target="#collapseTwo1"
            aria-expanded="true" aria-controls="collapseTwo">
             <i class="fas fa-table-tennis"></i>
             <span>Câu lạc bộ</span>
