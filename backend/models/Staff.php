@@ -36,7 +36,7 @@ class Staff extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['staff_name', 'staff_email', 'staff_tel', 'dep_id', 'created_at', 'updated_at'], 'required', 'message'=>'{attribute} không được để trống!'],
+            [['staff_name', 'staff_email', 'staff_tel', 'dep_id', 'status', 'created_at', 'updated_at'], 'required', 'message'=>'{attribute} không được để trống!'],
             [['dep_id', 'status', 'created_at', 'updated_at'], 'integer'],
             [['staff_name', 'staff_email', 'staff_tel'], 'string', 'max' => 255],
             [['staff_email'], 'unique', 'message'=> '{attribute} đã tồn tại ở nhân viên khác!'],
@@ -47,6 +47,7 @@ class Staff extends \yii\db\ActiveRecord
                     return trim(htmlentities(strip_tags($value), ENT_QUOTES, 'UTF-8'));
                 }
             ],
+            [['staff_tel'], 'match', 'pattern'=>'/\(?([0-9]{1,3})\)?([ .-]?)([0-9]{1,3})\2([0-9]{1,4})/', 'message'=>'{attribute} không đúng định dạng!']
             /*[['club_id'],'integer'],*/
         ];
     }

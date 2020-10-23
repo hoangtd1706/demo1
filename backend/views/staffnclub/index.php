@@ -7,7 +7,7 @@ use yii\grid\GridView;
 /* @var $searchModel backend\models\StaffnclubSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', 'Staffnclubs');
+$this->title = Yii::t('app', 'Chi tiết câu lạc bộ');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="card shadow mb-4">
@@ -19,7 +19,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="staffnclub-index">
 
                 <p>
-                    <?= Html::a(Yii::t('app', 'Create Staffnclub'), ['create'], ['class' => 'btn btn-success']) ?>
+                    <?= Html::a(Yii::t('app', 'Thêm thành viên'), ['create'], ['class' => 'btn btn-success']) ?>
                 </p>
 
                 <?php echo $this->render('_search', ['model' => $searchModel]); ?>

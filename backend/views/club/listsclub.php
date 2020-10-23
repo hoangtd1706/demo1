@@ -18,7 +18,7 @@ $staff = \backend\models\Staff::find()->where(['id' => $staff_id])->one();
         <h4 class="m-0 font-weight-bold text-primary"><?= Html::encode($this->title) ?></h4>
     </div>
     <div class="card-body">
-        <div class="table-responsive p-1">
+        <div class="table-responsive p-1 overflow-hidden">
             <div class="club-index">
 
                 <p>
@@ -46,7 +46,7 @@ $staff = \backend\models\Staff::find()->where(['id' => $staff_id])->one();
                         'club_name',
                         'club_description',
                         [
-                            'attribute' => 'Trang thai',
+                            'attribute' => 'Trạng thái',
                             'value' => function ($model) {
                                 $id = (int)$_GET['id'];
                                 $staffClub = Staffnclub::find()->where(['staff_id' => $id, 'club_id' => $model->id])->all();
@@ -66,6 +66,9 @@ $staff = \backend\models\Staff::find()->where(['id' => $staff_id])->one();
                             return ['class' => 'table-success'];
                         }
                     },
+                    'tableOptions'=>[
+                            'class'=>'table table-hover table-bordered',
+                    ]
                 ]); ?>
 
                 <div class="row">

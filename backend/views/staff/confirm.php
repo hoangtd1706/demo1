@@ -17,10 +17,20 @@ $this->title = Yii::t('app', 'Confirm');
         <div class="table-responsive p-1">
             <div class="department-form">
                 <h3 class="alert alert-success">Xác nhận thông tin</h3>
+                <?php if ($act == 'create'): ?>
+                    <h5>Ấn nút Ok để ghi thông tin vào DB</h5>
+                <?php endif; ?>
+                <?php if ($act == 'update'): ?>
+                    <h5>Ấn nút Ok để ghi thông tin vào DB</h5>
+                <?php endif; ?>
+                <?php if ($act == 'delete'): ?>
+                    <h5>Ấn nút Delete để xóa thông tin từ DB</h5>
+                <?php endif; ?>
                 <?php $form = ActiveForm::begin(); ?>
                 <?= DetailView::widget([
                     'model' => $model,
                     'attributes' => [
+                        'id',
                         'staff_name',
                         'staff_email',
                         'staff_tel',
@@ -28,16 +38,13 @@ $this->title = Yii::t('app', 'Confirm');
                             'attribute' => 'dep_id',
                             'value' => function ($model) {
                                 if ($model->dep_id == 0) {
-                                    return "khong co phong ban nao";
+                                    return "Không thuộc phòng ban nào";
                                 } else {
                                     $dep = Department::find()->where(['id' => $model->dep_id])->one();
                                     return $dep->dep_name;
                                 }
                             }
                         ],
-                        'status',
-                        'created_at:date',
-                        'updated_at:date',
                     ],
                 ]) ?>
                 <div class="department-form">
@@ -55,18 +62,20 @@ $this->title = Yii::t('app', 'Confirm');
 
                         <?= $form->field($model, 'status') ?>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group d-flex justify-content-center">
                         <?php if ($act == 'create'): ?>
-                            <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+                            <?= Html::submitButton('Ok', ['class' => 'btn btn-success m-2']) ?>
+                            <?= \yii\helpers\Html::a('Back', ['create'], ['class' => 'btn btn-outline-danger m-2']) ?>
                         <?php endif; ?>
                         <?php if ($act == 'update'): ?>
-                            <?= Html::submitButton('Update', ['class' => 'btn btn-primary']) ?>
+                            <?= Html::submitButton('Ok', ['class' => 'btn btn-primary m-2']) ?>
+                            <?= \yii\helpers\Html::a('Back', Yii::$app->request->referrer, ['class' => 'btn btn-outline-danger m-2']) ?>
                         <?php endif; ?>
                         <?php if ($act == 'delete'): ?>
-                            <?= Html::submitButton('Delete', ['class' => 'btn btn-danger']) ?>
+                            <?= Html::submitButton('Delete', ['class' => 'btn btn-danger m-2']) ?>
+                            <?= \yii\helpers\Html::a('Back', Yii::$app->request->referrer, ['class' => 'btn btn-outline-danger m-2']) ?>
                         <?php endif; ?>
-                        <?= Html::a(Yii::t('app', 'Hủy'), ['index'], ['class' => 'btn btn-outline-danger'
-                        ]) ?>
+
                     </div>
 
                     <?php ActiveForm::end(); ?>

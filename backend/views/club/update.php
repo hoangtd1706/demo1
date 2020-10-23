@@ -5,12 +5,12 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model backend\models\Club */
 
-$this->title = Yii::t('app', 'Update Club: {name}', [
+$this->title = Yii::t('app', 'Cập nhật câu lạc bộ: {name}', [
     'name' => $model->id,
 ]);
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Clubs'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Câu lạc bộ'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = Yii::t('app', 'Update');
+$this->params['breadcrumbs'][] = Yii::t('app', 'Cập nhật');
 ?>
 <div class="card shadow mb-4">
     <div class="card-header py-3">
@@ -19,8 +19,6 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
     <div class="card-body">
         <div class="table-responsive p-1">
             <div class="club-update">
-
-                <h1><?= Html::encode($this->title) ?></h1>
 
                 <?= $this->render('_form', [
                     'model' => $model,

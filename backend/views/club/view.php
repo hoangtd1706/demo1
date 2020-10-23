@@ -6,8 +6,8 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model backend\models\Club */
 
-$this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Clubs'), 'url' => ['index']];
+$this->title = $model->id . ' - ' . $model->club_name;
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Câu lạc bộ'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
@@ -18,15 +18,12 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="card-body">
         <div class="table-responsive p-1">
             <div class="club-view">
-
-                <h1><?= Html::encode($this->title) ?></h1>
-
                 <p>
-                    <?= Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-                    <?= Html::a(Yii::t('app', 'Delete'), ['delete', 'id' => $model->id], [
+                    <?= Html::a(Yii::t('app', 'Cập nhật'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+                    <?= Html::a(Yii::t('app', 'Xóa'), ['delete', 'id' => $model->id], [
                         'class' => 'btn btn-danger',
                         'data' => [
-                            'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
+                            'confirm' => Yii::t('app', 'Bạn muốn xóa câu lạc bộ: ' . $model->club_name . '?'),
                             'method' => 'post',
                         ],
                     ]) ?>
@@ -38,9 +35,24 @@ $this->params['breadcrumbs'][] = $this->title;
                         'id',
                         'club_name',
                         'club_description',
-                        'status',
-                        'created_at',
-                        'updated_at',
+                        [
+                            'attribute' => 'status',
+                            'value' => function ($model) {
+                                return $model->status == 1 ? 'Hoạt động' : 'Không hoạt động';
+                            }
+                        ],
+                        [
+                            'attribute' => 'created_at',
+                            'value' => function ($model) {
+                                return date('d-m-Y', $model->created_at);
+                            }
+                        ],
+                        [
+                            'attribute' => 'updated_at',
+                            'value' => function ($model) {
+                                return date('d-m-Y', $model->updated_at);
+                            }
+                        ],
                     ],
                 ]) ?>
 

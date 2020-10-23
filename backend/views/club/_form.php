@@ -16,11 +16,11 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'club_description')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'status')->textInput() ?>
-
-    <?= $form->field($model, 'created_at')->textInput() ?>
-
-    <?= $form->field($model, 'updated_at')->textInput() ?>
+    <?= $form->field($model, 'status')->dropDownList([
+            1=>'Hoạt động',
+        2=>'Không hoạt động',
+    ],['prompt'=>'-- Trạng thái --',]
+    ) ?>
 
     <div class="form-group">
         <?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-success']) ?>

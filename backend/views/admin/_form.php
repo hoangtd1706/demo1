@@ -19,7 +19,7 @@ use yii\helpers\Url;
 
     <?= $form->field($model, 'dep_id')->dropDownList(ArrayHelper::map(Department::find()->where(['status' => 1])->all(), 'id', 'dep_name'),
         [
-            'prompt' => '-- Chon phong ban --',
+            'prompt' => '-- Chọn phòng ban --',
             'onchange' => '
                         $.get( "' . Url::toRoute('staff/stafflists') . '", { id: $(this).val() } )
                             .done(function( data ) {

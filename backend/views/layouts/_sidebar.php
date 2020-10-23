@@ -42,30 +42,32 @@ AppAsset::register($this);
 
     <!-- Nav Item - Pages Collapse Menu -->
     <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-           aria-expanded="true" aria-controls="collapseTwo">
-            <i class="fas fa-fw fa-cog"></i>
+        <a class="nav-link" href="<?php echo Yii::$app->homeUrl. 'staff' ?>">
+            <i class="fas fa-user"></i>
             <span>Nhân sự</span>
+        </a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="<?php echo Yii::$app->homeUrl. 'department' ?>" data-toggle="collapse" data-target="#collapseTwo"
+           aria-expanded="true" aria-controls="collapseTwo">
+            <i class="fas fa-house-user"></i>
+            <span>Phòng ban</span></a>
         </a>
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <!--                        <h6 class="collapse-header"></h6>-->
                 <a class="collapse-item" href="<?php echo Yii::$app->homeUrl. 'department' ?>">Phòng ban</a>
-                <a class="collapse-item" href="<?php echo Yii::$app->homeUrl. 'staff' ?>">Nhân viên</a>
+                <a class="collapse-item" href="<?php echo Yii::$app->homeUrl. 'admin' ?>">Trưởng phòng</a>
             </div>
         </div>
     </li>
-    <li class="nav-item">
-        <a class="nav-link" href="<?php echo Yii::$app->homeUrl. 'admin' ?>">
-            <i class="fas fa-fw fa-chart-area"></i>
-            <span>Trưởng phòng</span></a>
-        </a>
-    </li>
+
 
     <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo1"
+        <a class="nav-link collapsed" href="<?php echo Yii::$app->homeUrl. 'club' ?>" data-toggle="collapse" data-target="#collapseTwo1"
            aria-expanded="true" aria-controls="collapseTwo">
-            <i class="fas fa-fw fa-cog"></i>
+            <i class="fas fa-table-tennis"></i>
             <span>Câu lạc bộ</span>
         </a>
         <div id="collapseTwo1" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">

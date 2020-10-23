@@ -7,11 +7,6 @@
 
 use yii\helpers\Html;
 
-preg_match('#\((.*?)\)#',$name, $match);
-$code = substr($match[1],1);
-$msg = strtolower(trim(strstr($name,'(',true)));
-
-$this->title = $name;
 ?>
 <div class="site-error">
 
