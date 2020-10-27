@@ -14,7 +14,7 @@ return [
             'dateFormat' => 'dd-MM-yyyy',
             'decimalSeparator' => ',',
             'thousandSeparator' => ' ',
-            'currencyCode' => 'Đồng',
+            'currencyCode' => 'VND',
         ],
     ],
 ];
